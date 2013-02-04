@@ -1,15 +1,16 @@
-static var MONEY = 100;
+static var MONEY: int;
 static var SHOW_GAME_MENU = true;
-static var POWER=100;
-static var LAKEWATER;
-static var RESERVOIRWATER;
+static var POWER : int;
+static var LAKEWATER :int;
+static var RESERVOIRWATER : int;
 
 
 function Start () {
 	//initialize variables
 	MONEY = 100;
-	DAMWATER = 50;
+	LAKEWATER = 50;
 	RESERVOIRWATER = 50;
+	POWER = 100;
 }
 
 function Update () {
@@ -20,4 +21,4 @@ function Update () {
 static function CHANGETYPE(Type : int)
 {
 	
-}
+};
