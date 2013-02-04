@@ -67,16 +67,17 @@ function addWaterLake(){
 function takeWaterLake(){
 
 }
-function addWaterResivor(){
+function addWaterReservoir(){
 
 
 }
-function takeWaterResivor(){
+function takeWaterReservoir(){
 
 }
 function PowerUpdate(){
 
 }
+
 static function addPower(number : int)//jaime for buildings adding power
 {
 	//Global.POWER_AVAILABLE += number;

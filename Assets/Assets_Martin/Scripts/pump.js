@@ -1,16 +1,16 @@
 #pragma strict
-var svart : GameObject;
-		
+var character : GameObject;
 function Start () {
 
 }
 
 function Update () {
-	var x = svart.transform.position.x;
-	var z = svart.transform.position.z;
-	if(Mathf.Abs((transform.position.x - x)) < 10 && Mathf.Abs((transform.position.z - z)) < 10) {
+	var x = character.transform.position.x;
+	var z = character.transform.position.z;
+	if(Mathf.Abs((transform.position.x - x)) < 5 && Mathf.Abs((transform.position.z - z)) < 5) {
 		if(Input.GetButtonDown("Jump")) {
-			//To-do-code whenever space is pressed in the vicinity of pump
+			//To-do-code whenever spacebar is pressed in the vicinity of pump
+			Debug.Log("interacted");
 		}
 	}
 }
