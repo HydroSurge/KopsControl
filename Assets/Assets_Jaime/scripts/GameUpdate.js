@@ -56,32 +56,54 @@ function MoneyUpdate()
 		
 	
 }
-function WaterUpdate()
-{
-
+function WaterUpdate(){
 }
-function addWaterLake(){
 
-
+function addWaterLake(amount : int){
+	Global.LAKEWATER += amount;
 }
-function takeWaterLake(){
 
+function takeWaterLake(amount : int){
+	Global.LAKEWATER -= amount;
 }
-function addWaterResivor(){
 
-
+function addWaterReservoir(amount : int){
+	Global.RESERVOIRWATER += amount;
 }
-function takeWaterResivor(){
 
+function takeWaterReservoir(amount : int){
+	Global.RESERVOIRWATER -= amount;
 }
+
 function PowerUpdate(){
 
 }
-static function addPower(number : int)//jaime for buildings adding power
+
+
+//function to be called after finishing minigame (valve)
+function valveActivated(){
+	takeWaterLake(20);
+	addWaterReservoir(20);
+	addPower(20);
+}
+//function to be called after finishing minigame (pump)
+function pumpActivated(){
+	addWaterLake(20);
+	takeWaterReservoir(20);
+	takePower(20);
+}
+
+
+
+function addPower(amount : int)//jaime for buildings adding power
 {
+	Global.POWER += amount;
 	//Global.POWER_AVAILABLE += number;
 }
-static var takePower = function(energyneeded : int)//for building requesting power
-{
+function takePower(amount : int){
+	Global.POWER -= amount;
+}
+//static var takePower = function(energyneeded : int)//for building requesting power
+//{
 	
-};
+//};
