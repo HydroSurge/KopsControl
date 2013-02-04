@@ -1,16 +1,20 @@
 #pragma strict
-var svart : GameObject;
+
+private var game : startMinigame;
+
+//Pump/valve colider detection
+function OnTriggerStay (myTrigger : Collider) {
+ 	
+ if(myTrigger.gameObject.tag == "valve" ||myTrigger.gameObject.tag == "pump" ){
+ 
+	if(Input.GetButtonDown("Jump")) {
+		Debug.Log("pressed");		
+		//Start a minigame
+		game = new startMinigame();
+		game.startGame();
 		
-function Start () {
-
-}
-
-function Update () {
-	var x = svart.transform.position.x;
-	var z = svart.transform.position.z;
-	if(Mathf.Abs((transform.position.x - x)) < 10 && Mathf.Abs((transform.position.z - z)) < 10) {
-		if(Input.GetButtonDown("Jump")) {
-			//To-do-code whenever space is pressed in the vicinity of pump
 		}
-	}
-}
+ }
+ };
+ 
+ 
