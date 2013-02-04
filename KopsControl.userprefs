@@ -1,6 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workbench />
+=======
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Assets_Kuba\Rotate.js">
+    <Files>
+      <File FileName="Assets\Assets_Kuba\MetaTute\Scripts\ThirdPersonCamera.cs" Line="1" Column="1" />
+      <File FileName="Assets\Assets_Kuba\Scripts\DepthMask.cs" Line="1" Column="1" />
+      <File FileName="Assets\Assets_Kuba\Scripts\I Don't like Mouse.js" Line="1" Column="1" />
+      <File FileName="Assets\Assets_Kuba\Rotate.js" Line="4" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+>>>>>>> 570df2eef3cb4f156fae8e2f26f1a5f1794ec1dd
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

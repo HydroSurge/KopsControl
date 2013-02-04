@@ -15,7 +15,7 @@ static var TotalBuilding = 0;
 static var PowerAvailable = 0;
 static var POWERUSED = 0;
 static var MATINENCECOST = 0;
-
+static var count = 250;
 function Start () {
 	
 }
@@ -39,8 +39,11 @@ function OnGUI(){
 		var itemNum = 1;
 		var yPos = Screen.height;
 		var xPos = Screen.width - (size*2);	
-		GUI.Box	(Rect(xPos,yPos -(size*itemNum),size,size ), IMGstocks,boxStyle);
-		GUI.Box	(Rect(xPos + size,yPos -(size*itemNum),size,size ),  'h');
+		GUI.Box	(Rect(xPos+450,yPos -(size*itemNum)+170,size,size ), IMGres,boxStyle);
+		GUI.Box	(Rect(xPos+350,yPos -(size*2),size,size ), IMGdam,boxStyle);
+		GUI.Box	(Rect(xPos+350,yPos -(size*2)+count,size,size ), IMGwave,boxStyle);
+		GUI.Box	(Rect(xPos+250,yPos-550,90,30),  Global.LAKEPRESENT+'%');
+		GUI.Box	(Rect(xPos+350,yPos-100,90,30),  Global.RESPRESENT+'%');
 
 }
 
@@ -62,10 +65,20 @@ function WaterUpdate(){
 
 function addWaterLake(amount : int){
 	Global.LAKEWATER += amount;
+	if(count>0){
+		count-=5;
+		Global.LAKEPRESENT+=1;
+		Global.RESPRESENT-=1;
+	}
 }
 
 function takeWaterLake(amount : int){
 	Global.LAKEWATER -= amount;
+	if(count<500){
+		count+=5;
+		Global.LAKEPRESENT-=1;
+		Global.RESPRESENT+=1;
+	}
 }
 
 function addWaterReservoir(amount : int){
