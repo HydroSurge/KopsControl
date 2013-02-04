@@ -35,6 +35,12 @@ function Update () {//check for new game set events
 
 function OnGUI(){
 
+		var size = 300;
+		var itemNum = 1;
+		var yPos = Screen.height;
+		var xPos = Screen.width - (size*2);	
+		GUI.Box	(Rect(xPos,yPos -(size*itemNum),size,size ), IMGstocks,boxStyle);
+		GUI.Box	(Rect(xPos + size,yPos -(size*itemNum),size,size ),  'h');
 
 }
 
