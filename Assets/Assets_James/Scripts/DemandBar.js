@@ -39,17 +39,18 @@ class DemandBar {
 	    mLineMaterial.shader.hideFlags = HideFlags.HideAndDontSave;
 	}
 	
+	/*
+	*	Updates the graph based on time passed
+	*/
 	function Update(pDeltaTime : float) {
 		
-		GUI.BeginGroup(Rect (mPosition.x-50, Screen.height-mPosition.y-mHeight-50, mWidth+100, mHeight+100));
-		
+		GUI.BeginGroup(Rect (mPosition.x-50, Screen.height-mPosition.y-mHeight-50, mWidth+100, mHeight+100));	
 			GUI.Box(Rect (50, 30, mWidth, mHeight+20), "Energy Demand");
 			GUI.Label(Rect (30, mHeight+35, 50, 50), "0%");
 			GUI.Label(Rect (18, 45, 50, 50), "100%");
 			GUI.Label(Rect (50, mHeight+50, 50, 50), "12AM");
 			GUI.Label(Rect (mWidth+20, mHeight+50, 50, 50), "12PM");
 			GUI.Label(Rect(mCurTime+50+(6*mScale), mHeight+50-mPowerLvl-10, 50, 50), ""+(mPowerLvl/mScale)+"%");
-		
 		GUI.EndGroup();
 		
 		// Update graph based on time passed
@@ -62,6 +63,9 @@ class DemandBar {
 		}
 	}
 	
+	/*
+	*	Draws the energy demand graph
+	*/
 	function DrawGraph(pPlayerPower : float)
 	{
 		mPowerLvl = pPlayerPower*mScale;
@@ -76,10 +80,12 @@ class DemandBar {
 			GL.Vertex(Vector2(mPosition.x+mWidth, mPosition.y));
 			GL.Vertex(mPosition);
 			
+			// Draw current time marker
 			GL.Color( Color(1.0f, 1.0f, 0.0f, 1) );
 			GL.Vertex(Vector2(mPosition.x+(mCurTime), mPosition.y));
 			GL.Vertex(Vector2(mPosition.x+(mCurTime), mPosition.y+mHeight));
 			
+			// Draw current power output marker
 			GL.Color( Color(0.1f, 1.0f, 0.1f, 1) );
 			var radius 	= 	5*mScale;
 			var sides 	= 	20;
@@ -88,6 +94,7 @@ class DemandBar {
 				GL.Vertex(Vector2((radius * Mathf.Cos(j * (2 * Mathf.PI) / sides)) + mPosition.x+mCurTime , (radius * Mathf.Sin(j * (2 * Mathf.PI) / sides)) + mPosition.y+mPowerLvl));
 		    }
 
+			// Draw points
 			GL.Color( Color(1.0f, 0.1f, 0.1f, 1) );
 			for(var i = 0; i < mPointsToShow; i++) {
 				GL.Vertex(mPoints[i]);
@@ -96,6 +103,10 @@ class DemandBar {
 		GL.End();
 	}
 	
+	/*
+	*	Checks if the players current power output is greater then the current demand
+	*	and returns the result.
+	*/
 	function IsAboveDemand() {
 	
 		var point : int = -1;
@@ -107,16 +118,18 @@ class DemandBar {
 				pointFound = true;		
 			}
 		}
-		
-		if(point != -1) {	
+		if(point != -1) {
 			var demand : float = Intersection(mPoints[point], mPoints[point+1], Vector2(mPosition.x+(mCurTime), mPosition.y), Vector2(mPosition.x+(mCurTime), mPosition.y+mHeight));
-			if(mPowerLvl > demand && demand != null) {
+			if(mPowerLvl > demand) {
 				return true;
 			}
 		}
 		return false;
 	}
 	
+	/*
+	*	Loads the graph data from a .txt file
+	*/
 	private function LoadDataFromFile() {
 	
 		var sr = new StreamReader(Application.dataPath + "/" + "GraphData.txt");
@@ -132,10 +145,14 @@ class DemandBar {
 	    }
 	}
 	
+	/*
+	*	Checks for an intersection between two lines and returns the y value of the result.
+	*	Used to find the energy demand at the current time.
+	*/
 	private function Intersection(p1 : Vector2, p2 : Vector2, p3 : Vector2, p4 : Vector2) {
 		
 		// Given two lines, the first line is p1-p2
-		//the second line is p3-p4	
+		// the second line is p3-p4	
 		var x1 = p1.x; 
 		var x2 = p2.x; 
 		var x3 = p3.x; 
@@ -148,8 +165,9 @@ class DemandBar {
 		
 		var d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
 		// If d is zero, there is no intersection
-		if (d == 0) return null;
-		
+		if (d == 0) { 
+			return null;
+		}
 		// Get the x and y
 		var pre = (x1*y2 - y1*x2);
 		var post = (x3*y4 - y3*x4);
