@@ -8,7 +8,7 @@ var InvokeAction:GameAction = GameAction.IncreaseValve1;
 var InvokeParam:float = 0.1;
 
 private var _nextInteractionTime:float = 0;
-private var _playerIsInRange:Boolean = false;
+private var _playerIsInRange = false;
 
 function CanInteract() {
     return Time.time >= _nextInteractionTime;

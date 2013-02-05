@@ -30,7 +30,7 @@ var KopsPowerGeneration:int = 0;
 var KopsPowerConsumption:int = 0;
 
 /* whether to show the game menu */
-var ShowGameMenu:Boolean = true;
+var ShowGameMenu = true;
 
 private var _nextUpdate:float=0;
 
