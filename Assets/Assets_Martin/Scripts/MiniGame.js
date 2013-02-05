@@ -1,7 +1,7 @@
 #pragma strict
 var keyPresses : float = 0;
-var pos : Vector2 = new Vector2(20,40);
-var size : Vector2 = new Vector2(20,60);
+var pos : Vector2 = new Vector2(0,0);
+var size : Vector2 = new Vector2(0,0);
 var progressBarEmpty : Texture2D;
 var progressBarFull : Texture2D;
  
