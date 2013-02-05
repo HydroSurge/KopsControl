@@ -1,14 +1,20 @@
 #pragma strict
 var keyPresses : float = 0;
 var instructions : GUIText;
+var percentage : GUIText;
 var currentRotation : float;
+var perc : float;
 
 function Start() {
-	instructions.material.color = new Color(0,0,0,1);
+	instructions.material.color = new Color(0, 0, 0);
 	instructions.fontSize = 24;
-	instructions.transform.position.x = 0.35;
+	instructions.transform.position.x = 0.2;
 	instructions.transform.position.y = 0.2;
-	instructions.text = "Spam the spacebar as fast as possible \nto activate the 'X'";
+	percentage.material.color = new Color(0, 0, 0);
+	percentage.fontSize = 24;
+	percentage.transform.position.x = 0.7;
+	percentage.transform.position.y = 0.5;
+	instructions.text = "Keep pressing the spacebar to turn the valve wheel!";
 }
 
 function Update () {
@@ -18,7 +24,9 @@ function Update () {
 	if(transform.eulerAngles.y > 0) {
 		transform.eulerAngles.y -= 0.4;
 	}
-	if(transform.eulerAngles.y > 359) {
+	if(transform.eulerAngles.y > 359 || Input.GetButtonDown("Fire1")) {
 		
 	}
+	perc = transform.eulerAngles.y/3.6;
+	percentage.text = "" + perc.ToString("f1") + "%";
 }	
