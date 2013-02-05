@@ -13,6 +13,8 @@ function Start () {
 }
 
 function FixedUpdate () {
+	if(MainGame.Instance().State != GameStates.Cavern) return;
+	
     var h = Input.GetAxis("Horizontal");
     var v = Input.GetAxis("Vertical");
 

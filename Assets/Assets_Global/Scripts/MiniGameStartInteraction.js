@@ -20,6 +20,8 @@ function Start () {
 
 
 function Update () {
+ 	if(MainGame.Instance().State != GameStates.Cavern) return;
+ 	
     if(CanInteract()) {
         renderer.material = InteractionHighlight;
         renderer.enabled = _playerIsInRange;
@@ -37,11 +39,16 @@ function Update () {
         
         else {
             // TODO: start mini game to send message to game
-            MainGame.Instance().InvokeGameAction(InvokeAction, InvokeParam);
-            _nextInteractionTime = Time.time + InteractionTimeout;
+            MainGame.Instance().StartRandomMiniGame(InvokeAction, InvokeParam, function() {
+             _nextInteractionTime = Time.time + InteractionTimeout;
+            });
+            
+            //disable character interaction
         }
     }
 }
+
+
 
 function OnTriggerEnter(c:Collider) {
     if(c.gameObject.tag == "Player") {

@@ -17,6 +17,8 @@ function Update () {
 }
 
 function OnGUI() {
+	if(MainGame.Instance().State != GameStates.Cavern) return;
+	
     if(Event.current.type == EventType.Repaint) {
         var y = Screen.height - 210;
         var x = Screen.width - 70;
