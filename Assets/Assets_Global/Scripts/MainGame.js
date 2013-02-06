@@ -63,9 +63,9 @@ private var _leftLabelStyle:GUIStyle;
 private var _centerLabelStyle:GUIStyle;
 private var _rightLabelStyle:GUIStyle;
 
-private var _pumpValveControllers:Array;
+var pumpValveControllers:Array;
 
-private var _gridBalance: float = 0;    
+var GridBalance: float = 0;    
 
 private var _currentCamera:Camera; 
 
@@ -91,8 +91,8 @@ var IMGcity : Texture;
  var count = 250;
  var LAKEWATER :float = 75;
  var RESERVOIRWATER : float = 75;
- var LAKEPRESENT : float=50;
- var RESPRESENT : float=50;
+ var LAKEPRESENT : float=0.5;
+ var RESPRESENT : float=0.5;
  var SHOW=false;
 
 
@@ -112,10 +112,10 @@ function Start () {
     _currentCamera = mainCameras[0].GetComponent(Camera);
     _flashMovement = mainCameras[0].GetComponent(TwoDObjectMovement);
     
-    _demandBar = DemandBar(Vector2(100,100), 400,200,200);
+    _demandBar = DemandBar(Vector2(25,25), 400,200,200);
     
     // initialize controllers
-    _pumpValveControllers = new Array();
+    pumpValveControllers = new Array();
     
     //
     // Valve/Pump 1 
@@ -125,7 +125,7 @@ function Start () {
     ctrl1.PumpMaxPower = 10;
     ctrl1.SetupValveRate(1, 1);
     ctrl1.SetupPumpRate(1, 1);
-    _pumpValveControllers.push(ctrl1);
+    pumpValveControllers.push(ctrl1);
     //
     // Valve/Pump 1 
     var ctrl2 = ValvePumpController();
@@ -134,7 +134,7 @@ function Start () {
     ctrl2.PumpMaxPower = 25;
     ctrl2.SetupValveRate(2, 3);
     ctrl2.SetupPumpRate(2, 3);
-    _pumpValveControllers.push(ctrl2);
+    pumpValveControllers.push(ctrl2);
     //
     // Valve/Pump 1 
     var ctrl3 = ValvePumpController();
@@ -143,7 +143,7 @@ function Start () {
     ctrl3.PumpMaxPower = 50;
     ctrl3.SetupValveRate(2, 3);
     ctrl3.SetupPumpRate(2, 3);
-    _pumpValveControllers.push(ctrl3);
+    pumpValveControllers.push(ctrl3);
 }
 
 /* Main Game processing Loop */
@@ -153,9 +153,9 @@ function Update () {
 	    if(MainGame.Instance().State == GameStates.Cavern) {
 
 	        _energyProduced = PowerGeneration;
-	        _gridBalance = PowerGeneration - PowerDemand;
+	        GridBalance = PowerGeneration - PowerDemand;
 	        
-	        for(var c in _pumpValveControllers) {
+	        for(var c in pumpValveControllers) {
                 var ctrl:ValvePumpController = c as ValvePumpController;
 	            if(ctrl.CanOperate(RESERVOIRWATER, LAKEWATER)) {
 	                var powerGeneration = ctrl.CalculateCurrentPowerGeneration();
@@ -164,8 +164,8 @@ function Update () {
 	                var waterNeed = ctrl.CalculateCurrentWaterNeed();
 
 	                _energyProduced += powerGeneration;
-	                _gridBalance += powerGeneration;
-	                _gridBalance -= powerDemand;
+	                GridBalance += powerGeneration;
+	                GridBalance -= powerDemand;
 
 	                LAKEWATER += waterPump;
 	                RESERVOIRWATER -= waterPump;
@@ -180,7 +180,7 @@ function Update () {
         	
       		_flashesToCreate += System.Convert.ToInt32(_energyProduced / 50);
       		
-        	if(Mathf.Abs(_gridBalance) > gameOverEnergyOffset ) {
+        	if(Mathf.Abs(GridBalance) > gameOverEnergyOffset ) {
         		 Debug.Log("Game over!"); 
         		 //State = GameStates.GameOver;//exit the game
         	}
@@ -202,56 +202,26 @@ function Update () {
 	}
 
     PlayTime += Time.deltaTime;
-    Debug.Log(PlayTime);
+    // Debug.Log(PlayTime);
 } 
 
 function OnGUI() {
 	if(MainGame.Instance().State != GameStates.Cavern) return;
-	var screenThird = Screen.width * 0.33;
-	var labelHeight = 30;
-	var topPadding = 10;
-	var sidePadding = 25;
-
+	//var screenThird = Screen.width * 0.33;
+	//var labelHeight = 30;
+	//var topPadding = 10;
+	//var sidePadding = 25;
 	
-	if(SHOW){
-		var size = 300;
-		var itemNum = 1;
-		var yPos = Screen.height;
-		var xPos = Screen.width - (size*2);	
-		
-		GUI.Box	(Rect(xPos+350,0,size,size ), IMGdam,boxStyle);
-		GUI.Box	(Rect(xPos+250,40,90,30),  String.Format("{0:0%}",LAKEPRESENT));
-		
-		GUI.Box	(Rect(xPos+450,yPos -(size*itemNum)+170,size,size ), IMGres,boxStyle);
-		GUI.Box	(Rect(xPos+350,yPos-100,90,30), String.Format("{0:0%}",RESPRESENT));
-		
-		var bottom = (Screen.height - 250);
-		var boxHeight = bottom; 
-		GUI.Box	(Rect(xPos+350,bottom - (boxHeight * LAKEPRESENT),size,size ), IMGwave,boxStyle);
-		
-		var s=200;
-		GUI.Box	(Rect(0,-30,s,s ), IMGPowerPlant,boxStyle);
-		GUI.Box	(Rect(Screen.width - s - s - 40,yPos -600,s,s ), IMGcity,boxStyle);
-    
-		var ctrlY = Screen.height - (_pumpValveControllers.length * labelHeight);
-		for(var ctrl:ValvePumpController in _pumpValveControllers) { 
-		    GUI.Label(Rect(sidePadding,ctrlY, screenThird, labelHeight), ctrl.ToString(), _leftLabelStyle);
-		    ctrlY += labelHeight;
-		}
+	if(SHOW) {    
+		//var ctrlY = Screen.height - (pumpValveControllers.length * labelHeight);
+		//for(var ctrl:ValvePumpController in pumpValveControllers) { 
+		//    GUI.Label(Rect(sidePadding,ctrlY, screenThird, labelHeight), ctrl.ToString(), _leftLabelStyle);
+		//    ctrlY += labelHeight;
+		//}
         
         _demandBar.Update(Time.deltaTime);
         _demandBar.DrawGraph((_energyProduced/200.0)*100);
     }
-    
-	// PowerPlant Generation -> Top Left
-	GUI.Label(Rect(sidePadding,topPadding, screenThird, labelHeight), FormatNumber(PowerGeneration), _leftLabelStyle);
-	
-	// CurrentBalance -> Top Center
-	GUI.Label(Rect(0,topPadding, Screen.width, labelHeight), FormatNumber(_gridBalance), _centerLabelStyle);
-	
-	// Household Consumption -> Top Right
-	GUI.Label(Rect(Screen.width - sidePadding - screenThird,topPadding, screenThird, labelHeight), FormatNumber(PowerDemand), _rightLabelStyle);
-
 } 
 
 function FormatNumber(number:int) {
@@ -303,10 +273,10 @@ function InvokeGameAction(action:GameAction, param:float, targetController:int) 
     Debug.Log(Time.time + " - Yeay! Interaction: " + action + "(" + param + ")");
     switch (action) {
         case GameAction.IncreaseValve: 
-            _pumpValveControllers[targetController].ValvePercentage += param;
+            pumpValveControllers[targetController].ValvePercentage += param;
         break;
         case GameAction.IncreasePump: 
-            _pumpValveControllers[targetController].ValvePercentage -= param;
+            pumpValveControllers[targetController].ValvePercentage -= param;
         break;
     }
 }
