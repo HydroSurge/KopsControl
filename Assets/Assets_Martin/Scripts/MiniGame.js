@@ -1,22 +1,32 @@
 #pragma strict
 var keyPresses : float = 0;
-var pos : Vector2 = new Vector2(20,40);
-var size : Vector2 = new Vector2(20,60);
-var progressBarEmpty : Texture2D;
-var progressBarFull : Texture2D;
- 
+var instructions : GUIText;
+var percentage : GUIText;
+var currentRotation : float;
+var perc : float;
+
 function Start() {
+	instructions.material.color = new Color(0, 0, 0);
+	instructions.fontSize = 24;
+	instructions.transform.position.x = 0.2;
+	instructions.transform.position.y = 0.2;
+	percentage.material.color = new Color(0, 0, 0);
+	percentage.fontSize = 24;
+	percentage.transform.position.x = 0.7;
+	percentage.transform.position.y = 0.5;
+	instructions.text = "Keep pressing the spacebar to turn the valve wheel!";
 }
 
 function Update () {
 	if(Input.GetButtonDown("Jump")) {
-		keyPresses++;
+		transform.eulerAngles.y += 15;
+	}	
+	if(transform.eulerAngles.y > 0) {
+		transform.eulerAngles.y -= 0.4;
 	}
-	if(keyPresses > 0) {
-		keyPresses -=0.04;
+	if(transform.eulerAngles.y > 359 || Input.GetButtonDown("Fire1")) {
+		
 	}
-}
-function OnGUI() {
-    GUI.DrawTexture(Rect(pos.x, pos.y, size.y, size.x), progressBarEmpty);
-    GUI.DrawTexture(Rect(pos.x, pos.y, size.y, size.x * Mathf.Clamp01(keyPresses*0.1)), progressBarFull);
-}
+	perc = transform.eulerAngles.y/3.6;
+	percentage.text = "" + perc.ToString("f1") + "%";
+}	

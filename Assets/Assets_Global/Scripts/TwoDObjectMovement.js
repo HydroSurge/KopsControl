@@ -20,7 +20,7 @@ list.Add(new Lightning());
 }
 
 function OnGUI(){
-
+	if(MainGame.Instance().State != GameStates.Cavern) return;
 	if(MainGame.Instance().SHOW){
 		for(var i:Lightning in list)
 		{

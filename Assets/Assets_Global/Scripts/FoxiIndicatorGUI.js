@@ -4,22 +4,19 @@ var indicatorBackground:Texture;
 var solvedLevel:Texture;
 var unsolvedLevel:Texture;
 var currentLevel:Texture;
-// TODO: get level from globals
-var level:int = 5;
-
 
 function Start () {
 
 }
 
 function Update () {
-    DebugLevelSet();
 }
 
 function OnGUI() {
 	if(MainGame.Instance().State != GameStates.Cavern) return;
 	
     if(Event.current.type == EventType.Repaint) {
+    	var level = MainGame.Instance().Level;
         var y = Screen.height - 210;
         var x = Screen.width - 70;
         // background
@@ -46,41 +43,5 @@ function OnGUI() {
 
             y+= 18; // offset+spacing to bottom
         }
-    }
-}
-
-function DebugLevelSet() {
-    if(Input.GetKeyDown(KeyCode.F1)) {
-        level = 0;
-    }
-    else if(Input.GetKeyDown(KeyCode.F2)) {
-        level = 1;
-    }
-    else if(Input.GetKeyDown(KeyCode.F3)) {
-        level = 2;
-    }
-    else if(Input.GetKeyDown(KeyCode.F4)) {
-        level = 3;
-    }
-    else if(Input.GetKeyDown(KeyCode.F5)) {
-        level = 4;
-    }
-    else if(Input.GetKeyDown(KeyCode.F6)) {
-        level = 5;
-    }
-    else if(Input.GetKeyDown(KeyCode.F7)) {
-        level = 6;
-    }
-    else if(Input.GetKeyDown(KeyCode.F8)) {
-        level = 7;
-    }
-    else if(Input.GetKeyDown(KeyCode.F9)) {
-        level = 8;
-    }
-    else if(Input.GetKeyDown(KeyCode.F10)) {
-        level = 9;
-    }
-    else if(Input.GetKeyDown(KeyCode.F11)) {
-        level = 10;
     }
 }

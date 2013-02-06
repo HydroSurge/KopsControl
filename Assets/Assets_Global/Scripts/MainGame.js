@@ -14,6 +14,7 @@ enum GameStates {
 	GameOver
 }
 
+
 var minigames = ["minigame1"]; 
 
 /* Some Styles */
@@ -40,6 +41,8 @@ var State: GameStates = GameStates.Cavern;
 
 /* whether to show the game menu */
 var ShowGameMenu = true;
+
+var Level = 0;
 
 private var _nextUpdate:float=0;
 
@@ -76,6 +79,9 @@ private var _currentActionParam:float;
 private var _callback;
 private var _flashesToCreate:int = 0;
 private var _nextCreationTime:float = 0;
+
+private var _demandBar:DemandBar;
+private var _energyProduced:float;
 var creationTimeout:float = 0.5;
 
 private var _flashMovement:TwoDObjectMovement;
@@ -109,26 +115,21 @@ function Start () {
     } 
     _currentCamera = mainCameras[0].GetComponent(Camera);
     _flashMovement = mainCameras[0].GetComponent(TwoDObjectMovement);
+    
+    _demandBar = DemandBar(Vector2(100,100), 400,200,200);
 }
 
 /* Main Game processing Loop */
 function Update () {
-	if(Time.time > _nextCreationTime) {
-		if(_flashesToCreate > 0) {
-			_flashMovement.createLightning(0.4);
-			_flashesToCreate--;
-		}
-		_nextCreationTime = Time.time + creationTimeout;
-	}
+	
 	if(Time.time > _nextUpdate) {
         if(MainGame.Instance().State == GameStates.Cavern) {        
-        	//Debug.Log("All Game Values are being updated now"); 
-	    	var energyProduced = PowerGeneration +
+	    	_energyProduced = PowerGeneration +
 	    	ValvePower(_valve1Percentage,_valve1Max) + 
         	ValvePower(_valve2Percentage,_valve2Max) + 
         	ValvePower(_valve3Percentage,_valve3Max);
         	
-        	_gridBalance = energyProduced - PowerDemand -  
+        	_gridBalance = _energyProduced - PowerDemand -  
         	PumpPower(1-_valve1Percentage,_pump1Max) - 
         	PumpPower(1-_valve2Percentage,_pump2Max) -
         	PumpPower(1-_valve3Percentage,_pump3Max) ;
@@ -148,11 +149,8 @@ function Update () {
         	
         	LAKEPRESENT = Mathf.Max(0, Mathf.Min(1,LAKEWATER/(LAKEWATER + RESERVOIRWATER))); 
         	RESPRESENT = Mathf.Max(0, Mathf.Min(1,RESERVOIRWATER/(LAKEWATER + RESERVOIRWATER)));
-      		_flashesToCreate += System.Convert.ToInt32(energyProduced / 50);
+      		_flashesToCreate += System.Convert.ToInt32(_energyProduced / 50);
       		
-        	 Debug.Log(LAKEWATER + RESERVOIRWATER);
-
-        	
         	if(Mathf.Abs(_gridBalance) > gameOverEnergyOffset ) {
         		 Debug.Log("Game over!"); 
         		 //State = GameStates.GameOver;//exit the game
@@ -164,15 +162,15 @@ function Update () {
 		_nextUpdate = Time.time + GameSpeed;	
         
     }
-    if (Input.GetKeyDown (KeyCode.Z)){
-      
-	      if(SHOW){
-				SHOW = false ;
-		  }
-		  else{
-				SHOW = true;
-		  }
-      }
+    SHOW = (Input.GetKey(KeyCode.Tab));
+    
+    if(Time.time > _nextCreationTime) {
+		if(_flashesToCreate > 0) {
+			_flashMovement.createLightning(0.4);
+			_flashesToCreate--;
+		}
+		_nextCreationTime = Time.time + creationTimeout;
+	}
 
 } 
 function ValvePower(percentage: float, maximum: float){  
@@ -184,44 +182,50 @@ function PumpPower(percentage: float, maximum: float){
 }
 function OnGUI() {
 	if(MainGame.Instance().State != GameStates.Cavern) return;
+	var screenThird = Screen.width * 0.33;
+	var labelHeight = 25;
+	var topPadding = 10;
+	var sidePadding = 25;
+
+	
 	if(SHOW){
 		var size = 300;
 		var itemNum = 1;
 		var yPos = Screen.height;
 		var xPos = Screen.width - (size*2);	
+		
+		GUI.Box	(Rect(xPos+350,0,size,size ), IMGdam,boxStyle);
+		GUI.Box	(Rect(xPos+250,150,90,30),  String.Format("{0:0%}",LAKEPRESENT));
+		
 		GUI.Box	(Rect(xPos+450,yPos -(size*itemNum)+170,size,size ), IMGres,boxStyle);
-		GUI.Box	(Rect(xPos+350,yPos -(size*2),size,size ), IMGdam,boxStyle);
+		GUI.Box	(Rect(xPos+350,yPos-100,90,30), String.Format("{0:0%}",RESPRESENT));
 		
 		var bottom = (Screen.height - 250);
 		var boxHeight = bottom; 
 		GUI.Box	(Rect(xPos+350,bottom - (boxHeight * LAKEPRESENT),size,size ), IMGwave,boxStyle);
 		
-		GUI.Box	(Rect(xPos+250,yPos-550,90,30),  String.Format("{0:0%}",LAKEPRESENT));
-		GUI.Box	(Rect(xPos+350,yPos-100,90,30), String.Format("{0:0%}",RESPRESENT));
 		var s=200;
-		GUI.Box	(Rect(xPos-800,yPos-640,s,s ), IMGPowerPlant,boxStyle);
-		GUI.Box	(Rect(xPos+50,yPos -600,s,s ), IMGcity,boxStyle);
+		GUI.Box	(Rect(0,-30,s,s ), IMGPowerPlant,boxStyle);
+		GUI.Box	(Rect(Screen.width - s - s - 40,yPos -600,s,s ), IMGcity,boxStyle);
     
-	    var screenThird = Screen.width * 0.33;
-	    var labelHeight = 25;
-	    var topPadding = 10;
-	    var sidePadding = 25;
-	
-		    // PowerPlant Generation -> Top Left
-		    GUI.Label(Rect(sidePadding,topPadding, screenThird, labelHeight), FormatNumber(PowerGeneration), _leftLabelStyle);
-		 
-		    // CurrentBalance -> Top Center
-		    GUI.Label(Rect(0,topPadding, Screen.width, labelHeight), FormatNumber(_gridBalance), _centerLabelStyle);
-		  
-		    // Household Consumption -> Top Right
-		    GUI.Label(Rect(Screen.width - sidePadding - screenThird,topPadding, screenThird, labelHeight), FormatNumber(PowerDemand), _rightLabelStyle);
-		
+	  
+		   
 		    // some logging
 		    GUI.Label(Rect(sidePadding,Screen.height - (3 * labelHeight), screenThird, labelHeight), String.Format("{0:0%} Valve ({1:0.0}MWh) / {2:0%} Pump ({3:0.0}MwH)", _valve1Percentage, ValvePower(_valve1Percentage, _valve1Max), 1-_valve1Percentage, PumpPower(1-_valve1Percentage, _pump1Max)), _leftLabelStyle);
 		    GUI.Label(Rect(sidePadding,Screen.height - (2 * labelHeight), screenThird, labelHeight), String.Format("{0:0%} Valve ({1:0.0}MWh) / {2:0%} Pump ({3:0.0}MwH)", _valve2Percentage, ValvePower(_valve2Percentage, _valve2Max), 1-_valve2Percentage, PumpPower(1-_valve2Percentage, _pump2Max)), _leftLabelStyle);
 		    GUI.Label(Rect(sidePadding,Screen.height - (1 * labelHeight), screenThird, labelHeight), String.Format("{0:0%} Valve ({1:0.0}MWh) / {2:0%} Pump ({3:0.0}MwH)", _valve3Percentage, ValvePower(_valve3Percentage, _valve3Max), 1-_valve3Percentage, PumpPower(1-_valve3Percentage, _pump3Max)), _leftLabelStyle);
 				
+			_demandBar.Update(Time.deltaTime);
+			_demandBar.DrawGraph((_energyProduced/200.0)*100);
 		}
+	// PowerPlant Generation -> Top Left
+	GUI.Label(Rect(sidePadding,topPadding, screenThird, labelHeight), FormatNumber(PowerGeneration), _leftLabelStyle);
+	
+	// CurrentBalance -> Top Center
+	GUI.Label(Rect(0,topPadding, Screen.width, labelHeight), FormatNumber(_gridBalance), _centerLabelStyle);
+	
+	// Household Consumption -> Top Right
+	GUI.Label(Rect(Screen.width - sidePadding - screenThird,topPadding, screenThird, labelHeight), FormatNumber(PowerDemand), _rightLabelStyle);
 
 }
 
@@ -301,7 +305,9 @@ function StartRandomMiniGame(action:GameAction, param:float, callback) {
 	_callback = callback;
 	State = GameStates.MiniGame1;
 	switchCavernLights(false);
-	swapCam("camera_"+minigames[Random.Range(0,minigames.length)]);
+	var miniGameName = minigames[Random.Range(0,minigames.length)];
+	GameObject.FindGameObjectWithTag(miniGameName).SendMessage("StartGame");
+	swapCam("camera_"+miniGameName);
 }
 
 function switchCavernLights(enabled){

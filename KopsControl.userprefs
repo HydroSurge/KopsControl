@@ -1,6 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Assets_Global\Scripts\MainGame.js">
+    <Files>
+      <File FileName="Assets\Assets_Global\Scripts\MainGame.js" Line="169" Column="40" />
+      <File FileName="Assets\Assets_Global\Scripts\MiniGameStartInteraction.js" Line="1" Column="1" />
+      <File FileName="Assets\Assets_Global\Scripts\TwoDObjectMovement.js" Line="1" Column="1" />
+      <File FileName="Assets\Assets_Global\Scripts\FoxiIndicatorGUI.js" Line="1" Column="1" />
+      <File FileName="Assets\Assets_Global\Scripts\DummyUpdater.js" Line="1" Column="1" />
+      <File FileName="Assets\Assets_Global\Scripts\minigame1.js" Line="35" Column="35" />
+      <File FileName="Assets\GraphData.txt" Line="13" Column="4" />
+      <File FileName="Assets\Assets_Global\Scripts\BotControlScript.js" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
