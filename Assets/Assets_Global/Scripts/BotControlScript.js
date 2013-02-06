@@ -2,9 +2,10 @@
 
 @script RequireComponent(Animator)
 
-var animSpeed = 1.5;
-var rotateSpeed = 80;
-var mouseRotateSpeed = 80;
+var animSpeed = 1.5; 
+var mouseRotationSpeed = 7;
+var standRotationSpeed = 80;
+var sidewalkSpeed = 7;
 
 private var anim:Animator;
 
@@ -19,19 +20,10 @@ function FixedUpdate () {
     var v = Input.GetAxis("Vertical");
 
 	anim.SetFloat("Speed", v);				
-	anim.SetFloat("Direction", h); 			
+	//anim.SetFloat("Direction", h); 			
 	anim.speed = animSpeed;					
-	anim.SetLookAtWeight(0);	
-    
-    // TODO: use TestHarryControl with a new state to let him rotate using an animation
-    transform.Rotate(Vector3.up * h * Time.deltaTime * rotateSpeed);
-    var sideWalkModificator = 0;
-    if(Input.GetKey(KeyCode.Q)) {
-        sideWalkModificator = -5;
-    }
-    else if(Input.GetKey(KeyCode.E)) {
-        sideWalkModificator = 5;
-    }
+	anim.SetLookAtWeight(0);
 
-    transform.Translate(Vector3.right * sideWalkModificator * Time.deltaTime);
+    var rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * mouseRotationSpeed + h * standRotationSpeed;
+    transform.localEulerAngles = new Vector3(0, rotationX, 0);
 }
