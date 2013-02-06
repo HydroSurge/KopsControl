@@ -29,10 +29,11 @@ function Update () {
 	if(Input.GetButtonDown("Jump")) {
 		transform.eulerAngles.y += 15;
 	}	
-	if(transform.eulerAngles.y > 0) {
+	if(transform.eulerAngles.y > 0.4) {
 		transform.eulerAngles.y -= 0.4;
 	}
 	if(transform.eulerAngles.y >= 350 || Input.GetButtonDown("Fire1")) {
+        Debug.Log("Minigame succeess!: " + transform.eulerAngles);
 		transform.eulerAngles.y = 0;
 		instructions.enabled = false;
 		percentage.enabled = false;		
