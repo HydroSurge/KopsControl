@@ -4,8 +4,8 @@
  * MainGame.Instance()     (e.g. Instance().CurrentLevel) 
  */
 enum GameAction { 
-    IncreaseValve1, IncreaseValve2, IncreaseValve3, 
-    IncreasePump1, IncreasePump2, IncreasePump3  
+    IncreaseValve,
+    IncreasePump, 
 }
 
 enum GameStates {
@@ -50,25 +50,7 @@ private var _leftLabelStyle:GUIStyle;
 private var _centerLabelStyle:GUIStyle;
 private var _rightLabelStyle:GUIStyle;
 
-private var _valve1Percentage:float = 0.5;
-private var _valve2Percentage:float = 0.5;
-private var _valve3Percentage:float = 0.5;  
-
-private var _valve1Rate : float = 1; 
-private var _valve2Rate : float = 2.0/3; 
-private var _valve3Rate : float = 2.5/5; 
-
-private var _pump1Rate : float = 1; 
-private var _pump2Rate : float = 2.0/3;
-private var _pump3Rate : float = 2.5/5;  
-
-private var _valve1Max : float = 10; 
-private var _valve2Max : float = 25; 
-private var _valve3Max : float = 50; 
-
-private var _pump1Max : float = 10; 
-private var _pump2Max : float = 25;
-private var _pump3Max : float = 50;
+private var _pumpValveControllers:Array;
 
 private var _gridBalance: float = 0;    
 
@@ -76,6 +58,7 @@ private var _currentCamera:Camera;
 
 private var _currentAction:GameAction;
 private var _currentActionParam:float;
+private var _currentActionController:int;
 private var _callback;
 private var _flashesToCreate:int = 0;
 private var _nextCreationTime:float = 0;
@@ -103,11 +86,11 @@ var IMGcity : Texture;
 
 function Start () {
     _leftLabelStyle = new GUIStyle(labelStyle);
-    _leftLabelStyle.alignment = TextAnchor.MiddleLeft;
+    _leftLabelStyle.alignment = TextAnchor.UpperLeft;
     _rightLabelStyle = new GUIStyle(labelStyle);
-    _rightLabelStyle.alignment = TextAnchor.MiddleRight; 
+    _rightLabelStyle.alignment = TextAnchor.UpperRight; 
     _centerLabelStyle = new GUIStyle(labelStyle);
-    _centerLabelStyle.alignment = TextAnchor.MiddleCenter; 
+    _centerLabelStyle.alignment = TextAnchor.UpperCenter; 
      
     var mainCameras = GameObject.FindGameObjectsWithTag("MainCamera");
     if(mainCameras == null || mainCameras.length == 0) {
@@ -117,38 +100,71 @@ function Start () {
     _flashMovement = mainCameras[0].GetComponent(TwoDObjectMovement);
     
     _demandBar = DemandBar(Vector2(100,100), 400,200,200);
+    
+    // initialize controllers
+    _pumpValveControllers = new Array();
+    
+    //
+    // Valve/Pump 1 
+    var ctrl1 = ValvePumpController();
+    ctrl1.ValvePercentage = 0.5;
+    ctrl1.ValveMaxPower = 10;
+    ctrl1.PumpMaxPower = 10;
+    ctrl1.SetupValveRate(1, 1);
+    ctrl1.SetupPumpRate(1, 1);
+    _pumpValveControllers.push(ctrl1);
+    //
+    // Valve/Pump 1 
+    var ctrl2 = ValvePumpController();
+    ctrl2.ValvePercentage = 0.5;
+    ctrl2.ValveMaxPower = 25;
+    ctrl2.PumpMaxPower = 25;
+    ctrl2.SetupValveRate(2, 3);
+    ctrl2.SetupPumpRate(2, 3);
+    _pumpValveControllers.push(ctrl2);
+    //
+    // Valve/Pump 1 
+    var ctrl3 = ValvePumpController();
+    ctrl3.ValvePercentage = 0.5;
+    ctrl3.ValveMaxPower = 50;
+    ctrl3.PumpMaxPower = 50;
+    ctrl3.SetupValveRate(2, 3);
+    ctrl3.SetupPumpRate(2, 3);
+    _pumpValveControllers.push(ctrl3);
 }
 
 /* Main Game processing Loop */
 function Update () {
 	
 	if(Time.time > _nextUpdate) {
-        if(MainGame.Instance().State == GameStates.Cavern) {        
-	    	_energyProduced = PowerGeneration +
-	    	ValvePower(_valve1Percentage,_valve1Max) + 
-        	ValvePower(_valve2Percentage,_valve2Max) + 
-        	ValvePower(_valve3Percentage,_valve3Max);
+	    if(MainGame.Instance().State == GameStates.Cavern) {
+
+	        _energyProduced = PowerGeneration;
+	        _gridBalance = PowerGeneration - PowerDemand;
+	        
+	        for(var c in _pumpValveControllers) {
+                var ctrl:ValvePumpController = c as ValvePumpController;
+	            if(ctrl.CanOperate(RESERVOIRWATER, LAKEWATER)) {
+	                var powerGeneration = ctrl.CalculateCurrentPowerGeneration();
+	                var powerDemand = ctrl.CalculateCurrentPowerDemand();
+	                var waterPump = ctrl.CalculateCurrentWaterPump();
+	                var waterNeed = ctrl.CalculateCurrentWaterNeed();
+
+	                _energyProduced += powerGeneration;
+	                _gridBalance += powerGeneration;
+	                _gridBalance -= powerDemand;
+
+	                LAKEWATER += waterPump;
+	                RESERVOIRWATER -= waterPump;
+
+	                LAKEWATER -= waterNeed;
+	                RESERVOIRWATER += waterNeed;
+	            }
+	        }
+            
+            RESPRESENT = RESERVOIRWATER / (RESERVOIRWATER+LAKEWATER);
+            LAKEPRESENT = LAKEWATER / (RESERVOIRWATER+LAKEWATER);
         	
-        	_gridBalance = _energyProduced - PowerDemand -  
-        	PumpPower(1-_valve1Percentage,_pump1Max) - 
-        	PumpPower(1-_valve2Percentage,_pump2Max) -
-        	PumpPower(1-_valve3Percentage,_pump3Max) ;
-        	
-    	    var waterDownflow:float = 
-    	    (ValvePower(_valve1Percentage,_valve1Max) / _valve1Rate) +
-    	    (ValvePower(_valve2Percentage,_valve2Max) / _valve2Rate) +
-    	    (ValvePower(_valve3Percentage,_valve3Max) / _valve3Rate);
-    	    
-    	   	var waterUpflow:float = (PumpPower(1-_valve1Percentage,_pump1Max) / _pump1Rate) +
-    	    (PumpPower(1-_valve2Percentage,_pump2Max) / _pump2Rate) +
-    	    (PumpPower(1-_valve3Percentage,_pump3Max) / _pump3Rate);
-        	 
-        	
-    	    LAKEWATER = LAKEWATER + waterUpflow - waterDownflow;
-        	RESERVOIRWATER = RESERVOIRWATER + waterDownflow - waterUpflow;
-        	
-        	LAKEPRESENT = Mathf.Max(0, Mathf.Min(1,LAKEWATER/(LAKEWATER + RESERVOIRWATER))); 
-        	RESPRESENT = Mathf.Max(0, Mathf.Min(1,RESERVOIRWATER/(LAKEWATER + RESERVOIRWATER)));
       		_flashesToCreate += System.Convert.ToInt32(_energyProduced / 50);
       		
         	if(Mathf.Abs(_gridBalance) > gameOverEnergyOffset ) {
@@ -173,17 +189,11 @@ function Update () {
 	}
 
 } 
-function ValvePower(percentage: float, maximum: float){  
 
-	return maximum * percentage   ;
-}
-function PumpPower(percentage: float, maximum: float){ 
-	return maximum * percentage   ;
-}
 function OnGUI() {
 	if(MainGame.Instance().State != GameStates.Cavern) return;
 	var screenThird = Screen.width * 0.33;
-	var labelHeight = 25;
+	var labelHeight = 30;
 	var topPadding = 10;
 	var sidePadding = 25;
 
@@ -195,7 +205,7 @@ function OnGUI() {
 		var xPos = Screen.width - (size*2);	
 		
 		GUI.Box	(Rect(xPos+350,0,size,size ), IMGdam,boxStyle);
-		GUI.Box	(Rect(xPos+250,150,90,30),  String.Format("{0:0%}",LAKEPRESENT));
+		GUI.Box	(Rect(xPos+250,40,90,30),  String.Format("{0:0%}",LAKEPRESENT));
 		
 		GUI.Box	(Rect(xPos+450,yPos -(size*itemNum)+170,size,size ), IMGres,boxStyle);
 		GUI.Box	(Rect(xPos+350,yPos-100,90,30), String.Format("{0:0%}",RESPRESENT));
@@ -208,16 +218,16 @@ function OnGUI() {
 		GUI.Box	(Rect(0,-30,s,s ), IMGPowerPlant,boxStyle);
 		GUI.Box	(Rect(Screen.width - s - s - 40,yPos -600,s,s ), IMGcity,boxStyle);
     
-	  
-		   
-		    // some logging
-		    GUI.Label(Rect(sidePadding,Screen.height - (3 * labelHeight), screenThird, labelHeight), String.Format("{0:0%} Valve ({1:0.0}MWh) / {2:0%} Pump ({3:0.0}MwH)", _valve1Percentage, ValvePower(_valve1Percentage, _valve1Max), 1-_valve1Percentage, PumpPower(1-_valve1Percentage, _pump1Max)), _leftLabelStyle);
-		    GUI.Label(Rect(sidePadding,Screen.height - (2 * labelHeight), screenThird, labelHeight), String.Format("{0:0%} Valve ({1:0.0}MWh) / {2:0%} Pump ({3:0.0}MwH)", _valve2Percentage, ValvePower(_valve2Percentage, _valve2Max), 1-_valve2Percentage, PumpPower(1-_valve2Percentage, _pump2Max)), _leftLabelStyle);
-		    GUI.Label(Rect(sidePadding,Screen.height - (1 * labelHeight), screenThird, labelHeight), String.Format("{0:0%} Valve ({1:0.0}MWh) / {2:0%} Pump ({3:0.0}MwH)", _valve3Percentage, ValvePower(_valve3Percentage, _valve3Max), 1-_valve3Percentage, PumpPower(1-_valve3Percentage, _pump3Max)), _leftLabelStyle);
-				
-			_demandBar.Update(Time.deltaTime);
-			_demandBar.DrawGraph((_energyProduced/200.0)*100);
+		var ctrlY = Screen.height - (_pumpValveControllers.length * labelHeight);
+		for(var ctrl:ValvePumpController in _pumpValveControllers) { 
+		    GUI.Label(Rect(sidePadding,ctrlY, screenThird, labelHeight), ctrl.ToString(), _leftLabelStyle);
+		    ctrlY += labelHeight;
 		}
+        
+        _demandBar.Update(Time.deltaTime);
+        _demandBar.DrawGraph((_energyProduced/200.0)*100);
+    }
+    
 	// PowerPlant Generation -> Top Left
 	GUI.Label(Rect(sidePadding,topPadding, screenThird, labelHeight), FormatNumber(PowerGeneration), _leftLabelStyle);
 	
@@ -227,7 +237,7 @@ function OnGUI() {
 	// Household Consumption -> Top Right
 	GUI.Label(Rect(Screen.width - sidePadding - screenThird,topPadding, screenThird, labelHeight), FormatNumber(PowerDemand), _rightLabelStyle);
 
-}
+} 
 
 function FormatNumber(number:int) {
     if(number < 0) {
@@ -259,27 +269,16 @@ function CompleteLevel() {
     }
 }
 
-function InvokeGameAction(action:GameAction, param:float) {
+/* use targetController if you use IncreaseValve/-Pump to access a specific controller */
+function InvokeGameAction(action:GameAction, param:float, targetController:int) {
     Debug.Log(Time.time + " - Yeay! Interaction: " + action + "(" + param + ")");
     switch (action) {
-        case GameAction.IncreaseValve1: 
-            _valve1Percentage = Mathf.Min(1, _valve1Percentage + param);
+        case GameAction.IncreaseValve: 
+            _pumpValveControllers[targetController].ValvePercentage += param;
         break;
-        case GameAction.IncreaseValve2: 
-            _valve2Percentage = Mathf.Min(1, _valve2Percentage + param);
+        case GameAction.IncreasePump: 
+            _pumpValveControllers[targetController].ValvePercentage -= param;
         break;
-        case GameAction.IncreaseValve3: 
-            _valve3Percentage = Mathf.Min(1, _valve3Percentage + param);
-        break;
-        case GameAction.IncreasePump1: 
-            _valve1Percentage = Mathf.Max(0, _valve1Percentage - param);
-        break;
-        case GameAction.IncreasePump2:
-            _valve2Percentage = Mathf.Max(0, _valve2Percentage - param);
-        break;
-        case GameAction.IncreasePump3:
-            _valve3Percentage = Mathf.Max(0, _valve3Percentage - param);
-        break; 
     }
 }
 
@@ -299,9 +298,10 @@ function swapCam(currentCam : String){
  _currentCamera.enabled = true;
 }		
             
-function StartRandomMiniGame(action:GameAction, param:float, callback) { 
+function StartRandomMiniGame(action:GameAction, param:float, controller:int, callback) { 
 	_currentAction = action;
 	_currentActionParam = param; 
+	_currentActionController = controller;
 	_callback = callback;
 	State = GameStates.MiniGame1;
 	switchCavernLights(false);
@@ -325,41 +325,6 @@ function minigameFinished(){
 	
 	swapCam("MainCamera"); 
 	
-    InvokeGameAction(_currentAction, _currentActionParam); 
+    InvokeGameAction(_currentAction, _currentActionParam, _currentActionController); 
     _callback();
-}
-function addWaterLake(amount : int){
-	LAKEWATER += amount;
-	if(count>0){
-		count-=5;
-		LAKEPRESENT+=1;
-		RESPRESENT-=1;
-	}
-}
-
-function takeWaterLake(amount : int){
-	LAKEWATER -= amount;
-	if(count<500){
-		count+=5;
-		LAKEPRESENT-=1;
-		RESPRESENT+=1;
-	}
-}
-
-function addWaterReservoir(amount : int){
-	RESERVOIRWATER += amount;
-}
-
-function takeWaterReservoir(amount : int){
-	RESERVOIRWATER -= amount;
-}
-//function to be called after finishing minigame (valve)
-function valveActivated(){
-	takeWaterLake(20);
-	addWaterReservoir(20);
-}
-//function to be called after finishing minigame (pump)
-function pumpActivated(){
-	addWaterLake(20);
-	takeWaterReservoir(20);
 }

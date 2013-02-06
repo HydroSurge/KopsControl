@@ -98,7 +98,8 @@ class DemandBar {
 	{
 		mPowerLvl = pPlayerPower*mScale;
 		mLineMaterial.SetPass(0);
-		GL.LoadPixelMatrix();
+		GL.PushMatrix();
+        GL.LoadPixelMatrix();
 		
 		// Draw graph
 		GL.Color( Color(1.0f, 1.0f, 1.0f, 1) );
@@ -147,6 +148,7 @@ class DemandBar {
 				GL.Vertex(mPoints[i+1]);
 			}
 		GL.End();
+        GL.PopMatrix();
 	}
 	
 	/*
@@ -183,7 +185,6 @@ class DemandBar {
 	    var pointCount = 0;
 	    for (line in lines) {
 	    	var val = (parseInt(line)/mMaxDemand)*100;
-	    	Debug.Log(val);
 	    		    	
 	    	mPoints[pointCount] = (Vector2(mPosition.x+(pointCount*(mWidth/mPointsToShow)), (((mHeight/100)*val))+mPosition.y));
 	    	pointCount++;

@@ -4,8 +4,9 @@
 var InteractionHighlight:Material;
 var NoInteractionHighlight:Material;
 var InteractionTimeout = 5;
-var InvokeAction:GameAction = GameAction.IncreaseValve1;
+var InvokeAction:GameAction = GameAction.IncreaseValve;
 var InvokeParam:float = 0.1;
+var InvokeController:int = 0;
 
 private var _nextInteractionTime:float = 0;
 private var _playerIsInRange = false;
@@ -39,7 +40,7 @@ function Update () {
         
         else {
             // TODO: start mini game to send message to game
-            MainGame.Instance().StartRandomMiniGame(InvokeAction, InvokeParam, function() {
+            MainGame.Instance().StartRandomMiniGame(InvokeAction, InvokeParam, InvokeController, function() {
              _nextInteractionTime = Time.time + InteractionTimeout;
             });
             
