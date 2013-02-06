@@ -42,6 +42,19 @@ var State: GameStates = GameStates.Cavern;
 /* whether to show the game menu */
 var ShowGameMenu = true;
 
+// Total time spent playing
+var PlayTime:float = 0;
+var PlayerScore:int = 0;
+
+// Time limits to recieve a better score.
+var GoldTimeLimit:int = 360; // 6 Minutes
+var SilverTimeLimit:int = 480;	// 8 Minutes
+var BronzeTimeLimit:int = 720;	// 12 Minutes
+
+var GoldScoreMult: int = 4;
+var SilverScoreMult:int = 2;
+var BronzeScoreMult:float = 1.5f;
+
 var Level = 0;
 
 private var _nextUpdate:float=0;
@@ -188,6 +201,8 @@ function Update () {
 		_nextCreationTime = Time.time + creationTimeout;
 	}
 
+    PlayTime += Time.deltaTime;
+    Debug.Log(PlayTime);
 } 
 
 function OnGUI() {
@@ -265,6 +280,20 @@ function CompleteLevel() {
     CurrentLevel++;
     if(CurrentLevel == 10) {
         Debug.Log("Yeay, we game is finished, let's restart!");
+        // Award player score based on their money and time taken.
+    	if(PlayTime <= GoldTimeLimit) {
+    		PlayerScore = Money*GoldScoreMult;
+    	}
+    	else if(PlayTime <= SilverTimeLimit) {
+    		PlayerScore = Money*SilverScoreMult;
+    	}
+  		else if(PlayTime <= BronzeTimeLimit) {
+  			PlayerScore = Money*BronzeScoreMult;
+  		}
+  		else {
+  			PlayerScore = Money;
+  		}
+        
         CurrentLevel = 0;
     }
 }
