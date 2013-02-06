@@ -32,6 +32,19 @@ var KopsPowerConsumption:int = 0;
 /* whether to show the game menu */
 var ShowGameMenu = true;
 
+// Total time spent playing
+var PlayTime:float = 0;
+var PlayerScore:int = 0;
+
+// Time limits to recieve a better score.
+var GoldTimeLimit:int = 360; // 6 Minutes
+var SilverTimeLimit:int = 480;	// 8 Minutes
+var BronzeTimeLimit:int = 720;	// 12 Minutes
+
+var GoldScoreMult: int = 4;
+var SilverScoreMult:int = 2;
+var BronzeScoreMult:float = 1.5f;
+
 private var _nextUpdate:float=0;
 
 private var _leftLabelStyle:GUIStyle;
@@ -56,6 +69,8 @@ function Update () {
 
         _nextUpdate = Time.time + GameSpeed;
     }
+    PlayTime += Time.deltaTime;
+    Debug.Log(PlayTime);
 }
 
 function OnGUI() {
@@ -101,6 +116,21 @@ static function Instance() {
 function CompleteLevel() {
     CurrentLevel++;
     if(CurrentLevel == 10) {
+    
+    	// Award player score based on their money and time taken.
+    	if(PlayTime <= GoldTimeLimit) {
+    		PlayerScore = Money*GoldScoreMult;
+    	}
+    	else if(PlayTime <= SilverTimeLimit) {
+    		PlayerScore = Money*SilverScoreMult;
+    	}
+  		else if(PlayTime <= BronzeTimeLimit) {
+  			PlayerScore = Money*BronzeScoreMult;
+  		}
+  		else {
+  			PlayerScore = Money;
+  		}
+
         Debug.Log("Yeay, we game is finished, let's restart!");
         CurrentLevel = 0;
     }
