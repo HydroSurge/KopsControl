@@ -108,7 +108,7 @@ function UpdateInfoPopup() {
     switch(InvokeAction) {
         case GameAction.IncreaseValve: 
             title = "Valve";
-            desc = "Activate valves to start produce additional energy to the grid"; 
+            desc = "Activate valves to start produce additional energy to the grid\n After activation:"; 
             
             newPercentage = Mathf.Min(1,ctrl.ValvePercentage + InvokeParam);
             currentEnergy = ctrl.CalculateCurrentPowerGeneration();
@@ -139,7 +139,7 @@ function UpdateInfoPopup() {
             break;
         case GameAction.IncreasePump: 
             title = "Pump";
-            desc = "Activate pumps to consume energy from the grid";
+            desc = "Activate pumps to consume energy from the grid\nAfter activation:";
 
             newPercentage = Mathf.Min(1,ctrl.PumpPercentage + InvokeParam);
             currentEnergy = ctrl.CalculateCurrentPowerDemand();
@@ -159,7 +159,7 @@ function UpdateInfoPopup() {
                 // Running: $NewPercentage$ ($CurrentPercentage$ +/- $Difference$)
                 // Energy: $NewEnergyGeneration$ ($CurrentEnergyGeneration$ +/- $Difference$)
                 // Water: $NewWaterDemand$ ($CurrentWaterDemand$ +/- $Difference$)
-                percentage = String.Format("#xRunning: #n#i{0:0.0%} ({1}{2}{3:0%})", newPercentage, ctrl.PumpPercentage, InvokeParam >=0 ? "+" : "", InvokeParam);
+                percentage = String.Format("#xRunning: #n#i{0:0.0%} ({1:0%}{2}{3:0%})", newPercentage, ctrl.PumpPercentage, InvokeParam >=0 ? "+" : "", InvokeParam);
                 energy = String.Format("#xEnergy: #n#i{0:0.0}MWh ({1:0.0}MWh{2}{3:0.0}MWh)", newEnergy, currentEnergy, newEnergy-currentEnergy >=0 ? "+" : "", newEnergy-currentEnergy);
                 water = String.Format("#xWater: #n#i{0:0.0}m³ ({1:0.0}m³{2}{3:0.0}m³)", newWater, currentWater, newWater-currentWater >=0 ? "+" : "", newWater-currentWater);
             }
