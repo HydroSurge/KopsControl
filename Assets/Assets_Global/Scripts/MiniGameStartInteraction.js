@@ -1,5 +1,5 @@
 #pragma strict
-
+#pragma downcast
 
 var InteractionHighlight:Material;
 var NoInteractionHighlight:Material;

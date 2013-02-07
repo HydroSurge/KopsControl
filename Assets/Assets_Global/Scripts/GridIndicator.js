@@ -53,7 +53,7 @@ function OnGUI() {
         // Label Drawing
         
         // zero label
-        GUI.Label(redRect, MainGame.Instance().GridBalance + "KWh", _zeroStyle); // TODO: maybe 0?
+        GUI.Label(redRect, String.Format("{0:0.##}KWh", MainGame.Instance().GridBalance), _zeroStyle); // TODO: maybe 0?
         GUI.Label(Rect(redRect.x, redRect.y, orangeRect.x - redRect.x - 5, redRect.height), "-" + MainGame.Instance().gameOverEnergyOffset + "KWh", _lowerStyle);
         GUI.Label(Rect(orangeRect.xMax + 5, redRect.y, redRect.xMax - orangeRect.xMax - 5, redRect.height), "+" + MainGame.Instance().gameOverEnergyOffset + "KWh", _upperStyle);
         

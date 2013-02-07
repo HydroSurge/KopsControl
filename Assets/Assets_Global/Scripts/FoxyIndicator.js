@@ -14,7 +14,7 @@ function Start () {
 }
 
 function Update () {
-   	var level = MainGame.Instance().Level;
+   	var level = MainGame.Instance().CurrentLevel;
     if(level != _lastLevel) {
 
         for(var i = 0; i < _children.length; i++) {

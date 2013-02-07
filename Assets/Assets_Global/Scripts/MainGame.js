@@ -1,3 +1,4 @@
+
 /*
  * This file stores the current gameplay information.
  * Access this data anywhere using 
@@ -55,7 +56,8 @@ var GoldScoreMult: int = 4;
 var SilverScoreMult:int = 2;
 var BronzeScoreMult:float = 1.5f;
 
-var Level = 0;
+// Foxy interrupt speed
+var foxySpeed: int = 0;
 
 private var _nextUpdate:float=0;
 
@@ -107,7 +109,7 @@ function Start () {
      
     var mainCameras = GameObject.FindGameObjectsWithTag("MainCamera");
     if(mainCameras == null || mainCameras.length == 0) {
-        return null;
+        return;
     } 
     _currentCamera = mainCameras[0].GetComponent(Camera);
     _flashMovement = mainCameras[0].GetComponent(TwoDObjectMovement);
@@ -191,6 +193,48 @@ function Update () {
 		_nextUpdate = Time.time + GameSpeed;	
         
     }
+    
+        // Foxy interrupt: changing values randomly    
+    //#######################################################################
+    if(Time.time > foxySpeed){
+	 	if(MainGame.Instance().State == GameStates.Cavern) {  
+	 		// Number of pumps+valves
+	 		var selection : int = Random.Range(1,4); 
+	 		// Decide difficulty  
+	 		var level : float = CurrentLevel;
+	 		var difficulty : float = (level) * 0.04 ;
+	 		var param : float = Random.Range(-difficulty,difficulty);
+            var foxyDidAction = false;
+//	 		Debug.Log("param: "+ param + "diffi: "+ difficulty );
+	 			 		
+	 		switch (selection) {
+				case 1: 				
+					pumpValveControllers[0].ValvePercentage += param;	
+                    foxyDidAction = true;                    
+				break;
+				case 2: 
+					pumpValveControllers[1].ValvePercentage += param;
+                    foxyDidAction = true;                    
+                break;
+				case 3: 
+					pumpValveControllers[2].ValvePercentage += param;
+                    foxyDidAction = true;                    
+				break;
+				default:
+					Debug.Log("Error: no such value for switch: "+ selection);
+	 		} 
+	 		
+	 		//todo: foxy message; "I'm running again, let me help you! Ohno I made a mistake.
+            if(foxyDidAction && param != 0) {
+                Debug.Log("I'm running again, let me help you! Ohno I made a mistake. (" + selection + "/ "+param+")"); 
+            }
+	 		 
+	 		// set new interrupt time
+	 		//foxySpeed = Time.time + (15 - CurrentLevel); 
+    	 	foxySpeed = Time.time + 2; // Debug time
+    	 }    	  		    	 
+	}
+    
     SHOW = (Input.GetKey(KeyCode.Tab));
     
     if(Time.time > _nextCreationTime) {

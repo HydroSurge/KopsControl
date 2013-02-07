@@ -16,7 +16,7 @@ function OnGUI() {
 	if(MainGame.Instance().State != GameStates.Cavern) return;
 	
     if(Event.current.type == EventType.Repaint) {
-    	var level = MainGame.Instance().Level;
+    	var level = MainGame.Instance().CurrentLevel;
         var y = Screen.height - 210;
         var x = Screen.width - 70;
         // background
