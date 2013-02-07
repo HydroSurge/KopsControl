@@ -16,7 +16,8 @@ enum GameStates {
 }
 
 
-var minigames = ["minigame1"]; 
+var valveMinigames = ["minigame1"]; 
+var pumpMinigames = ["minigame1"]; 
 
 /* Some Styles */
 var labelStyle:GUIStyle;  
@@ -52,6 +53,11 @@ var GoldTimeLimit:int = 360; // 6 Minutes
 var SilverTimeLimit:int = 480;	// 8 Minutes
 var BronzeTimeLimit:int = 720;	// 12 Minutes
 
+var lr:LineRenderer;
+var outputMarker:LineRenderer;
+var demandMarker:LineRenderer;
+var curTimeMarker:LineRenderer;
+
 var GoldScoreMult: int = 4;
 var SilverScoreMult:int = 2;
 var BronzeScoreMult:float = 1.5f;
@@ -69,7 +75,7 @@ var pumpValveControllers:Array;
 
 var GridBalance: float = 0;    
 
-private var _currentCamera:Camera; 
+var currentCamera:Camera; 
 
 private var _currentAction:GameAction;
 private var _currentActionParam:float;
@@ -100,6 +106,11 @@ var IMGcity : Texture;
 
 
 function Start () {
+	lr = gameObject.AddComponent(LineRenderer);
+	outputMarker = GameObject.Find("OutputMarker").AddComponent(LineRenderer);
+	demandMarker = GameObject.Find("DemandMarker").AddComponent(LineRenderer);
+	curTimeMarker = GameObject.Find("CurTimeMarker").AddComponent(LineRenderer);
+
     _leftLabelStyle = new GUIStyle(labelStyle);
     _leftLabelStyle.alignment = TextAnchor.UpperLeft;
     _rightLabelStyle = new GUIStyle(labelStyle);
@@ -111,10 +122,10 @@ function Start () {
     if(mainCameras == null || mainCameras.length == 0) {
         return;
     } 
-    _currentCamera = mainCameras[0].GetComponent(Camera);
+    currentCamera = mainCameras[0].GetComponent(Camera);
     _flashMovement = mainCameras[0].GetComponent(TwoDObjectMovement);
     
-    _demandBar = DemandBar(Vector2(25,25), 400,200,200);
+    _demandBar = DemandBar(Vector2(30,25), Vector3(17.5, 12, -10), 400,200,200);
     
     // initialize controllers
     pumpValveControllers = new Array();
@@ -151,6 +162,9 @@ function Start () {
 /* Main Game processing Loop */
 function Update () {
 	
+	_demandBar.Update3D(Time.deltaTime);
+	_demandBar.Update(Time.deltaTime);
+
 	if(Time.time > _nextUpdate) {
 	    if(MainGame.Instance().State == GameStates.Cavern) {
 
@@ -263,9 +277,9 @@ function OnGUI() {
 		//    ctrlY += labelHeight;
 		//}
         
-        _demandBar.Update(Time.deltaTime);
-        _demandBar.DrawGraph((_energyProduced/200.0)*100);
+        _demandBar.DrawGraph2D((_energyProduced/200.0)*100);
     }
+    _demandBar.DrawGraph3D((_energyProduced/200.0)*100, lr, outputMarker, demandMarker, curTimeMarker);
 } 
 
 function FormatNumber(number:int) {
@@ -336,9 +350,9 @@ function swapCam(currentCam : String){
  
  
  //Debug.Log("camera: "+oneToUse);  
- _currentCamera.enabled = false; 
- _currentCamera = gameObject.Find(currentCam).GetComponent(Camera);
- _currentCamera.enabled = true;
+ currentCamera.enabled = false; 
+ currentCamera = gameObject.Find(currentCam).GetComponent(Camera);
+ currentCamera.enabled = true;
 }		
             
 function StartRandomMiniGame(action:GameAction, param:float, controller:int, callback) { 
@@ -348,8 +362,23 @@ function StartRandomMiniGame(action:GameAction, param:float, controller:int, cal
 	_callback = callback;
 	State = GameStates.MiniGame1;
 	switchCavernLights(false);
-	var miniGameName = minigames[Random.Range(0,minigames.length)];
-	GameObject.FindGameObjectWithTag(miniGameName).SendMessage("StartGame");
+	var miniGameName:String;
+
+    switch(action) {
+        case GameAction.IncreasePump:
+            miniGameName = pumpMinigames[Random.Range(0,pumpMinigames.length)];
+        break;
+        
+        case GameAction.IncreaseValve:
+            miniGameName = valveMinigames[Random.Range(0,pumpMinigames.length)];
+        break;
+        
+        default:
+            minigameFinished(true);
+        break;
+    }
+    
+	GameObject.FindGameObjectWithTag(miniGameName).SendMessage("StartNewGame");
 	swapCam("camera_"+miniGameName);
 }
 
@@ -360,7 +389,7 @@ function switchCavernLights(enabled){
 	 } 
 }
 
-function minigameFinished(){
+function minigameFinished(success:boolean){
 	//state back to maingame
 	State = GameStates.Cavern;
 	//enable global lights
@@ -368,6 +397,8 @@ function minigameFinished(){
 	
 	swapCam("MainCamera"); 
 	
-    InvokeGameAction(_currentAction, _currentActionParam, _currentActionController); 
+    if(success) {
+        InvokeGameAction(_currentAction, _currentActionParam, _currentActionController); 
+    }
     _callback();
 }

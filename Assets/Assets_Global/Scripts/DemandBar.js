@@ -16,9 +16,16 @@ class DemandBar {
 	private var mCurDemand		:	float;			// The current power demand.
 	private var mMaxDemand		:	float;			// Maximum possible power demand.
 	
-	function DemandBar(pPos : Vector2, pWidth : int, pHeight : int, pMaxDemand : float) {
+	private var mPoints3D		:	Vector3[];
+	private var mPosition3D		:	Vector3;
+	private var m3DWidth		:	float;
+	private var mLastMoved3D	:	float;
+	private var mCurTime3D		:	float;
+	private var xScale3D		:	float;
+	
+	function DemandBar(pPos2D : Vector2, pPos3D : Vector3, pWidth : int, pHeight : int, pMaxDemand : float) {
 
-		mPosition		=	pPos;
+		mPosition		=	pPos2D;
 		mWidth			=	pWidth;
 		mHeight			=	pHeight;
 		mLastMoved		=	0;
@@ -28,8 +35,11 @@ class DemandBar {
 		mPowerLvl		= 	0;
 		mCurDemand		= 	0;
 		mMaxDemand		=	pMaxDemand;
+		mPosition3D		=	pPos3D;
+		m3DWidth		=	12;
+		xScale3D		=	0.75;
 		
-		LoadDataFromFile();
+		GenerateDemandData();
 
 		// Set line material
 		mLineMaterial = new Material( "Shader \"Lines/Colored Blended\" {" +
@@ -48,23 +58,17 @@ class DemandBar {
 	*/
 	function Update(pDeltaTime : float) {
 		
-		GUI.BeginGroup(Rect (mPosition.x-50, Screen.height-mPosition.y-mHeight-50, mWidth+100, mHeight+100));	
-			GUI.Box(Rect (50, 30, mWidth, mHeight+20), "Energy Demand");
-			GUI.Label(Rect (30, mHeight+35, 50, 50), "0%");
-			GUI.Label(Rect (18, 45, 50, 50), "100%");
-			GUI.Label(Rect (50, mHeight+50, 50, 50), "12AM");
-			GUI.Label(Rect (mWidth+20, mHeight+50, 50, 50), "12PM");
-			GUI.Label(Rect(mCurTime+50+(6*mScale), mHeight+50-mPowerLvl-10, 50, 50), ""+(mPowerLvl/mScale)+"%");
-		GUI.EndGroup();
-		
 		// Update graph based on time passed (Currently every second)
 		mLastMoved += pDeltaTime;
 		if(mLastMoved >= 1) {
 			if(mPosition.x+mCurTime < mPosition.x+mWidth) {
-				mCurTime += mWidth/(60*24);
+				mCurTime += mWidth/(60);
 			}
 			else {
 				mCurTime = 0;
+				mCurTime3D = 0;
+				
+				MainGame.Instance().CompleteLevel();
 			}
 			mLastMoved = 0;
 		}
@@ -91,11 +95,83 @@ class DemandBar {
 		}
 	}
 	
+	function Update3D(pDeltaTime : float) {
+	
+		mLastMoved3D += pDeltaTime;
+		if(mLastMoved3D >= 1) {
+			mCurTime3D += m3DWidth/(60);
+			mLastMoved3D = 0;
+		}
+	}
+	
+	function Set3DPos(pPos : Vector3) {
+		mPosition3D = pPos;
+	}
+	
+	function DrawGraph3D(pPlayerPower : float, renderer : LineRenderer, pOutput : LineRenderer, pDemand : LineRenderer, pCurTime : LineRenderer) {
+		
+		mPowerLvl = pPlayerPower;
+	
+		renderer.SetVertexCount(mPointsToShow+1);
+		renderer.SetWidth(0.05, 0.05);
+		var c1 = Color.red;
+		renderer.SetColors(c1, c1);
+		renderer.material = new Material (Shader.Find("Particles/Additive"));
+		
+		for (var j = 0; j <= mPointsToShow; j++) {
+			renderer.SetPosition(j, mPoints3D[j]);
+		}
+		//renderer.SetPosition(j+1, mPoints3D[j+1]);
+		
+		pOutput.SetWidth(0.05, 0.05);
+		var c2 = Color.green;
+		pOutput.SetColors(c2, c2);
+		pOutput.material = new Material (Shader.Find("Particles/Additive"));
+		
+		var radius 	= 	0.08*mScale;
+	    var sides	=	10;
+	    pOutput.SetVertexCount(sides+1);
+	    for (j = 0; j <= sides; j++) {		
+			pOutput.SetPosition(j, Vector3((radius * Mathf.Cos(j * (2 * Mathf.PI) / sides)) + (mPosition3D.x-mCurTime3D)*xScale3D , (radius * Mathf.Sin(j * (2 * Mathf.PI) / sides)) + mPosition3D.y+(((mHeight/100)*pPlayerPower)/100), mPosition3D.z));
+	    }
+	    
+	    pCurTime.SetWidth(0.02, 0.02);
+		var c3 = Color.yellow;
+		pCurTime.SetColors(c3, c3);
+		pCurTime.material = new Material (Shader.Find("Particles/Additive"));
+	    pCurTime.SetVertexCount(2);
+	    
+	    pCurTime.SetPosition(0, Vector3((mPosition3D.x-mCurTime3D)*xScale3D, mPosition3D.y, mPosition3D.z));
+	    pCurTime.SetPosition(1, Vector3((mPosition3D.x-mCurTime3D)*xScale3D, mPosition3D.y+2, mPosition3D.z));
+	    
+	    pDemand.SetWidth(0.02, 0.02);
+		var c4 = Color.cyan;
+		pDemand.SetColors(c4, c4);
+		
+		pDemand.material = new Material (Shader.Find("Particles/Additive"));
+	    radius 	= 	0.05*mScale;
+	    sides	=	5;
+	    
+	    pDemand.SetVertexCount(sides+1);
+	    for (j = 0; j <= sides; j++) {		
+			pDemand.SetPosition(j, Vector3((radius * Mathf.Cos(j * (2 * Mathf.PI) / sides)) + (mPosition3D.x-mCurTime3D)*xScale3D , (radius * Mathf.Sin(j * (2 * Mathf.PI) / sides)) + mPosition3D.y+(mCurDemand/100), mPosition3D.z));
+	    }
+	}
+	
 	/*
-	*	Draws the energy demand graph
+	*	Draws the 2D energy demand graph
 	*/
-	function DrawGraph(pPlayerPower : float)
+	function DrawGraph2D(pPlayerPower : float)
 	{
+		GUI.BeginGroup(Rect (mPosition.x-50, Screen.height-mPosition.y-mHeight-50, mWidth+100, mHeight+100));	
+			GUI.Box(Rect (50, 30, mWidth, mHeight+20), "Energy Demand");
+			GUI.Label(Rect (30, mHeight+35, 50, 50), "0%");
+			GUI.Label(Rect (18, 45, 50, 50), "100%");
+			GUI.Label(Rect (50, mHeight+50, 50, 50), "12AM");
+			GUI.Label(Rect (mWidth+20, mHeight+50, 50, 50), "12PM");
+			GUI.Label(Rect(mCurTime+50+(6*mScale), mHeight+50-mPowerLvl-10, 50, 50), ""+(mPowerLvl/mScale)+"%");
+		GUI.EndGroup();
+	
 		mPowerLvl = pPlayerPower*mScale;
 		mLineMaterial.SetPass(0);
 		GL.PushMatrix();
@@ -172,7 +248,38 @@ class DemandBar {
 	}
 	
 	/*
-	*	Loads the graph data from a .txt file
+	*	Randomly generates a new set of data for the graph.
+	*/
+	function GenerateDemandData() {
+	
+		var pointCount = 0;
+		var lastVal = 0;
+		mPoints = new Vector2[mPointsToShow+1];
+		mPoints3D = new Vector3[mPointsToShow+1];
+		mCurTime = 0;
+		for(var i = 0; i < mPointsToShow+1; i++) {
+			var val = 0;
+			var cont = false;
+			while(!cont) {
+				val = (Random.Range(25, mMaxDemand)/mMaxDemand)*100;
+				
+				// Even out the data in order to avoid huge spikes in demand.
+				if(pointCount > 0 && Mathf.Abs(val - lastVal) < 25) {
+					cont = true;
+				}
+				else if(pointCount == 0) {
+					cont = true;
+				}
+			}
+			lastVal = val;
+			mPoints[i] = (Vector2(mPosition.x+(pointCount*(mWidth/mPointsToShow)), (((mHeight/100)*val))+mPosition.y));
+			mPoints3D[i] = Vector3((mPosition3D.x+((-pointCount*(m3DWidth/mPointsToShow))))*xScale3D, mPosition3D.y+(((mHeight/100)*val)/100), mPosition3D.z);
+	    	pointCount++;
+		}
+	}
+	
+	/*
+	*	Loads the graph data from a .txt file.
 	*/
 	private function LoadDataFromFile() {
 	
