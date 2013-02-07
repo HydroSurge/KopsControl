@@ -102,6 +102,23 @@ ModelImporter:
     100192: transform8
     100194: transform9
     100196: //RootNode
+    100198: polySurface69
+    100200: transform44
+    100202: transform45
+    100204: transform46
+    100206: transform47
+    100208: transform48
+    100210: transform49
+    100212: transform50
+    100214: transform51
+    100216: transform52
+    100218: transform53
+    100220: transform54
+    100222: transform55
+    100224: transform56
+    100226: transform57
+    100228: transform58
+    100230: transform59
     400000: pCube2
     400002: pCube3
     400004: pCube4
@@ -201,6 +218,23 @@ ModelImporter:
     400192: transform8
     400194: transform9
     400196: //RootNode
+    400198: polySurface69
+    400200: transform44
+    400202: transform45
+    400204: transform46
+    400206: transform47
+    400208: transform48
+    400210: transform49
+    400212: transform50
+    400214: transform51
+    400216: transform52
+    400218: transform53
+    400220: transform54
+    400222: transform55
+    400224: transform56
+    400226: transform57
+    400228: transform58
+    400230: transform59
     2300000: polySurface53
     2300002: polySurface54
     2300004: polySurface55
@@ -217,6 +251,7 @@ ModelImporter:
     2300026: polySurface66
     2300028: polySurface67
     2300030: polySurface68
+    2300032: polySurface69
     3300000: polySurface53
     3300002: polySurface54
     3300004: polySurface55
@@ -233,6 +268,7 @@ ModelImporter:
     3300026: polySurface66
     3300028: polySurface67
     3300030: polySurface68
+    3300032: polySurface69
     4300000: polySurface53
     4300002: polySurface54
     4300004: polySurface55
@@ -249,6 +285,7 @@ ModelImporter:
     4300026: polySurface66
     4300028: polySurface67
     4300030: polySurface68
+    4300032: polySurface69
     6400000: polySurface53
     6400002: polySurface54
     6400004: polySurface55
@@ -265,6 +302,7 @@ ModelImporter:
     6400026: polySurface66
     6400028: polySurface67
     6400030: polySurface68
+    6400032: polySurface69
     9500000: //RootNode
   materials:
     importMaterials: 1
