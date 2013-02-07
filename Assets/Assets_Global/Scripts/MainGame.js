@@ -12,12 +12,15 @@ enum GameAction {
 enum GameStates {
 	Cavern,
 	MiniGame1 , 
+	MiniGame2 , 
 	GameOver
 }
 
 
 var valveMinigames = ["minigame1"]; 
-var pumpMinigames = ["minigame1"]; 
+var valveMiniGameStates = [GameStates.MiniGame1]; 
+var pumpMinigames = ["minigame2"]; 
+var pumpMiniGameStates = [GameStates.MiniGame2]; 
 
 /* Some Styles */
 var labelStyle:GUIStyle;  
@@ -360,17 +363,21 @@ function StartRandomMiniGame(action:GameAction, param:float, controller:int, cal
 	_currentActionParam = param; 
 	_currentActionController = controller;
 	_callback = callback;
-	State = GameStates.MiniGame1;
+	
 	switchCavernLights(false);
 	var miniGameName:String;
-
+    var miniGameIndex:int;
     switch(action) {
         case GameAction.IncreasePump:
-            miniGameName = pumpMinigames[Random.Range(0,pumpMinigames.length)];
+            miniGameIndex = Random.Range(0,pumpMinigames.length);
+            State = pumpMiniGameStates[miniGameIndex];
+            miniGameName = pumpMinigames[miniGameIndex];
         break;
         
         case GameAction.IncreaseValve:
-            miniGameName = valveMinigames[Random.Range(0,pumpMinigames.length)];
+            miniGameIndex = Random.Range(0,valveMinigames.length);
+            State = valveMiniGameStates[miniGameIndex];
+            miniGameName = valveMinigames[miniGameIndex];
         break;
         
         default:
