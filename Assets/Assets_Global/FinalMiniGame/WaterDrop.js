@@ -11,7 +11,7 @@ function Start () {
 function Update () {
 
 }
-function OnTriggerEnter(collision : Collision) {
+function OnCollisionEnter(collision : Collision) {
     for (var contact : ContactPoint in collision.contacts) {
 	    if(collision.gameObject != null && 
         (
