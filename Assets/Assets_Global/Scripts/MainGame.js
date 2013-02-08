@@ -7,12 +7,14 @@
 enum GameAction { 
     IncreaseValve,
     IncreasePump, 
+    FinalMiniGame 
 }
 
 enum GameStates {
 	Cavern,
 	MiniGame1 , 
 	MiniGame2 , 
+	FinalMiniGame1 , 
 	GameOver
 }
 
@@ -21,6 +23,8 @@ var valveMinigames = ["minigame1"];
 var valveMiniGameStates = [GameStates.MiniGame1]; 
 var pumpMinigames = ["minigame2"]; 
 var pumpMiniGameStates = [GameStates.MiniGame2]; 
+var finalMiniGames = ["finalMiniGame1"]; 
+var finalMiniGameStates = [GameStates.FinalMiniGame1]; 
 
 /* Some Styles */
 var labelStyle:GUIStyle;  
@@ -339,6 +343,13 @@ function InvokeGameAction(action:GameAction, param:float, targetController:int) 
         case GameAction.IncreasePump: 
             pumpValveControllers[targetController].ValvePercentage -= param;
         break;
+        case GameAction.FinalMiniGame: 
+            CurrentLevel++;
+            if(CurrentLevel >= 10) {
+                State = GameStates.GameOver;
+                // TODO: GameoverSCreen
+            }
+        break;
     }
 }
 
@@ -349,8 +360,6 @@ function swapCam(currentCam : String){
  //for (var cams : GameObject in cameras){
  // cams.GetComponent(Camera).enabled = false;
  //}  
- 
- 
  
  //Debug.Log("camera: "+oneToUse);  
  currentCamera.enabled = false; 
@@ -380,11 +389,16 @@ function StartRandomMiniGame(action:GameAction, param:float, controller:int, cal
             miniGameName = valveMinigames[miniGameIndex];
         break;
         
+        case GameAction.FinalMiniGame:
+            miniGameIndex = Random.Range(0,finalMiniGames.length);
+            State = finalMiniGameStates[miniGameIndex];
+            miniGameName = finalMiniGames[miniGameIndex];
+        break;
+        
         default:
             minigameFinished(true);
         break;
     }
-    
 	GameObject.FindGameObjectWithTag(miniGameName).SendMessage("StartNewGame");
 	swapCam("camera_"+miniGameName);
 }

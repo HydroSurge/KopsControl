@@ -106,6 +106,18 @@ function UpdateInfoPopup() {
     // TODO: maybe the calculations here should be done in ValvePumpController
     var ctrl:ValvePumpController = MainGame.Instance().pumpValveControllers[InvokeController];
     switch(InvokeAction) {
+        case GameAction.FinalMiniGame: 
+            title = "Foxy";
+            desc = "Activate valves to start repairing it and enter the next level\n After activation:"; 
+            percentage = "Current Level:" + (MainGame.Instance().CurrentLevel + 1);
+            if(MainGame.Instance().CurrentLevel == 9) {
+                 energy = "Next Level: Game Over";
+            }
+            else {
+                energy = "Next Level:" + MainGame.Instance().CurrentLevel + 1;
+            }
+            water = "";
+        break;
         case GameAction.IncreaseValve: 
             title = "Valve";
             desc = "Activate valves to start produce additional energy to the grid\n After activation:"; 
