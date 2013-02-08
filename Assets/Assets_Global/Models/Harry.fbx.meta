@@ -308,6 +308,99 @@ ModelImporter:
     100604: UpArm_R
     100606: UpLeg_L
     100608: UpLeg_R
+    100610: group5
+    100612: group6
+    100614: pasted__polySurface105
+    100616: pasted__polySurface105 1
+    100618: pasted__polySurface117
+    100620: pasted__polySurface118
+    100622: pasted__polySurface119
+    100624: pasted__polySurface233
+    100626: pasted__transform141
+    100628: pasted__transform33
+    100630: pasted__transform34
+    100632: pasted__transform35
+    100634: pasted__transform44
+    100636: pCylinder4
+    100638: pCylinder5
+    100640: pCylinder6
+    100642: polySurface214
+    100644: polySurface215
+    100646: polySurface216
+    100648: polySurface217
+    100650: polySurface218
+    100652: polySurface219
+    100654: polySurface220
+    100656: polySurface221
+    100658: polySurface222
+    100660: polySurface223
+    100662: polySurface224
+    100664: polySurface225
+    100666: polySurface226
+    100668: polySurface227
+    100670: polySurface229
+    100672: polySurface230
+    100674: polySurface232
+    100676: polySurface233
+    100678: polySurface234
+    100680: polySurface235
+    100682: polySurface236
+    100684: polySurface237
+    100686: polySurface238
+    100688: polySurface239
+    100690: polySurface240
+    100692: polySurface241
+    100694: polySurface242
+    100696: polySurface243
+    100698: polySurface244
+    100700: polySurface245
+    100702: polySurface246
+    100704: polySurface247
+    100706: polySurface248
+    100708: polySurface249
+    100710: pTorus1
+    100712: pTorus2
+    100714: transform130
+    100716: transform131
+    100718: transform132
+    100720: transform133
+    100722: transform134
+    100724: transform135
+    100726: transform136
+    100728: transform137
+    100730: transform138
+    100732: transform139
+    100734: transform140
+    100736: transform141
+    100738: transform142
+    100740: transform143
+    100742: transform144
+    100744: transform145
+    100746: transform146
+    100748: transform147
+    100750: transform148
+    100752: transform149
+    100754: transform150
+    100756: transform151
+    100758: transform152
+    100760: transform153
+    100762: transform154
+    100764: transform155
+    100766: transform156
+    100768: transform157
+    100770: transform158
+    100772: transform159
+    100774: transform160
+    100776: transform161
+    100778: transform162
+    100780: transform163
+    100782: transform164
+    100784: transform165
+    100786: transform166
+    100788: transform167
+    100790: transform168
+    100792: transform169
+    100794: transform170
     400000: Clavicle_L
     400002: Clavicle_R
     400004: Foot_L
@@ -613,9 +706,104 @@ ModelImporter:
     400604: UpArm_R
     400606: UpLeg_L
     400608: UpLeg_R
+    400610: group5
+    400612: group6
+    400614: pasted__polySurface105
+    400616: pasted__polySurface105 1
+    400618: pasted__polySurface117
+    400620: pasted__polySurface118
+    400622: pasted__polySurface119
+    400624: pasted__polySurface233
+    400626: pasted__transform141
+    400628: pasted__transform33
+    400630: pasted__transform34
+    400632: pasted__transform35
+    400634: pasted__transform44
+    400636: pCylinder4
+    400638: pCylinder5
+    400640: pCylinder6
+    400642: polySurface214
+    400644: polySurface215
+    400646: polySurface216
+    400648: polySurface217
+    400650: polySurface218
+    400652: polySurface219
+    400654: polySurface220
+    400656: polySurface221
+    400658: polySurface222
+    400660: polySurface223
+    400662: polySurface224
+    400664: polySurface225
+    400666: polySurface226
+    400668: polySurface227
+    400670: polySurface229
+    400672: polySurface230
+    400674: polySurface232
+    400676: polySurface233
+    400678: polySurface234
+    400680: polySurface235
+    400682: polySurface236
+    400684: polySurface237
+    400686: polySurface238
+    400688: polySurface239
+    400690: polySurface240
+    400692: polySurface241
+    400694: polySurface242
+    400696: polySurface243
+    400698: polySurface244
+    400700: polySurface245
+    400702: polySurface246
+    400704: polySurface247
+    400706: polySurface248
+    400708: polySurface249
+    400710: pTorus1
+    400712: pTorus2
+    400714: transform130
+    400716: transform131
+    400718: transform132
+    400720: transform133
+    400722: transform134
+    400724: transform135
+    400726: transform136
+    400728: transform137
+    400730: transform138
+    400732: transform139
+    400734: transform140
+    400736: transform141
+    400738: transform142
+    400740: transform143
+    400742: transform144
+    400744: transform145
+    400746: transform146
+    400748: transform147
+    400750: transform148
+    400752: transform149
+    400754: transform150
+    400756: transform151
+    400758: transform152
+    400760: transform153
+    400762: transform154
+    400764: transform155
+    400766: transform156
+    400768: transform157
+    400770: transform158
+    400772: transform159
+    400774: transform160
+    400776: transform161
+    400778: transform162
+    400780: transform163
+    400782: transform164
+    400784: transform165
+    400786: transform166
+    400788: transform167
+    400790: transform168
+    400792: transform169
+    400794: transform170
     4300000: polySurface213
+    4300002: polySurface249
     9500000: //RootNode
     13700000: polySurface213
+    13700002: polySurface249
   materials:
     importMaterials: 1
     materialName: 0
@@ -668,7 +856,7 @@ ModelImporter:
         min: {x: -60.0000038, y: -60.0000038, z: -90}
         max: {x: 60.0000038, y: 60.0000038, z: 50}
         value: {x: .417145133, y: 0, z: .208572567}
-        preQ: {x: -.605163038, y: .369986743, z: -.596749425, w: .375203192}
+        preQ: {x: -.605163097, y: .369986743, z: -.596749425, w: .375203192}
         postQ: {x: -.48740834, y: .511852682, z: -.480631828, w: .519069314}
         length: .521431565
         modified: 1
@@ -687,40 +875,40 @@ ModelImporter:
       limit:
         min: {x: -90, y: 0, z: -80}
         max: {x: 90, y: 0, z: 80}
-        value: {x: .348317444, y: 0, z: .174158722}
-        preQ: {x: -.0591180325, y: .676857829, z: -.0546873994, w: .731695116}
-        postQ: {x: -.515581012, y: .483378679, z: -.476940542, w: .522540748}
-        length: .43539694
+        value: {x: .348317534, y: 0, z: .174158767}
+        preQ: {x: -.0591180734, y: .676857769, z: -.0546873957, w: .731695116}
+        postQ: {x: -.515581131, y: .483378708, z: -.476940572, w: .522540808}
+        length: .435397059
         modified: 1
     - boneName: LoLeg_R
       humanName: RightLowerLeg
       limit:
         min: {x: -90, y: 0, z: -80}
         max: {x: 90, y: 0, z: 80}
-        value: {x: .348317444, y: 0, z: .174158722}
-        preQ: {x: -.0546873696, y: .731695294, z: -.0591180064, w: .676857531}
-        postQ: {x: -.476940393, y: .522540927, z: -.515581131, w: .48337853}
-        length: .43539694
+        value: {x: .348317534, y: 0, z: .174158767}
+        preQ: {x: -.0546873957, y: .731695294, z: -.0591180511, w: .676857591}
+        postQ: {x: -.476940393, y: .522540927, z: -.515581191, w: .48337853}
+        length: .435397059
         modified: 1
     - boneName: Foot_L
       humanName: LeftFoot
       limit:
         min: {x: 0, y: -30.0000019, z: -50}
         max: {x: 0, y: 30.0000019, z: 50}
-        value: {x: .0814996436, y: 0, z: .0407498218}
-        preQ: {x: -.49999997, y: .49999997, z: -.49999997, w: .49999997}
+        value: {x: .0814998373, y: 0, z: .0407499187}
+        preQ: {x: -.49999997, y: .49999997, z: -.5, w: .5}
         postQ: {x: -.49999997, y: .49999997, z: -.49999997, w: .49999997}
-        length: .10187459
+        length: .101874828
         modified: 1
     - boneName: Foot_R
       humanName: RightFoot
       limit:
         min: {x: 0, y: -30.0000019, z: -50}
         max: {x: 0, y: 30.0000019, z: 50}
-        value: {x: .0814996436, y: 0, z: .0407498218}
-        preQ: {x: -.49999997, y: .49999997, z: -.49999997, w: .49999997}
+        value: {x: .0814998373, y: 0, z: .0407499187}
+        preQ: {x: -.49999997, y: .49999997, z: -.5, w: .5}
         postQ: {x: -.49999997, y: .49999997, z: -.49999997, w: .49999997}
-        length: .10187459
+        length: .101874828
         modified: 1
     - boneName: Spine1
       humanName: Spine
@@ -728,8 +916,8 @@ ModelImporter:
         min: {x: -40, y: -40, z: -40}
         max: {x: 40, y: 40, z: 40}
         value: {x: .0841381475, y: 0, z: .0420690738}
-        preQ: {x: -.550498486, y: -.44345656, z: .552020669, w: .442233831}
-        postQ: {x: -.550498486, y: -.44345656, z: .552020669, w: .442233831}
+        preQ: {x: -.550498545, y: -.44345656, z: .552020669, w: .442233831}
+        postQ: {x: -.550498545, y: -.443456531, z: .552020669, w: .442233801}
         length: .105172724
         modified: 1
     - boneName: Spine2
@@ -738,7 +926,7 @@ ModelImporter:
         min: {x: -40, y: -40, z: -40}
         max: {x: 40, y: 40, z: 40}
         value: {x: .288653761, y: 0, z: .144326881}
-        preQ: {x: .503080666, y: .496900171, z: -.503080666, w: -.496900171}
+        preQ: {x: .503080726, y: .496900201, z: -.503080726, w: -.496900201}
         postQ: {x: .503080666, y: .496900171, z: -.503080666, w: -.496900171}
         length: .360817343
         modified: 1
@@ -747,20 +935,20 @@ ModelImporter:
       limit:
         min: {x: -40, y: -40, z: -40}
         max: {x: 40, y: 40, z: 40}
-        value: {x: .0857090801, y: 0, z: .0428545401}
-        preQ: {x: -.488056749, y: -.511631131, z: .487372994, w: .512349069}
-        postQ: {x: -.488056749, y: -.511631131, z: .487372994, w: .512349069}
-        length: .107136384
+        value: {x: .0857091695, y: 0, z: .0428545848}
+        preQ: {x: -.488056779, y: -.511631191, z: .487373024, w: .512349069}
+        postQ: {x: -.488056779, y: -.511631191, z: .487373024, w: .512349069}
+        length: .107136495
         modified: 1
     - boneName: Head
       humanName: Head
       limit:
         min: {x: -40, y: -40, z: -40}
         max: {x: 40, y: 40, z: 40}
-        value: {x: .0857090801, y: 0, z: .0428545401}
-        preQ: {x: -.49999997, y: -.49999997, z: .49999997, w: .49999997}
+        value: {x: .0857091695, y: 0, z: .0428545848}
+        preQ: {x: -.49999997, y: -.49999997, z: .5, w: .5}
         postQ: {x: -.49999997, y: -.49999997, z: .49999997, w: .49999997}
-        length: .107136384
+        length: .107136495
         modified: 1
     - boneName: Clavicle_L
       humanName: LeftShoulder
@@ -768,9 +956,9 @@ ModelImporter:
         min: {x: 0, y: -15.000001, z: -15.000001}
         max: {x: 0, y: 15.000001, z: 30.0000019}
         value: {x: .138041422, y: 0, z: .0690207109}
-        preQ: {x: -.162980124, y: -.00401055487, z: .986322463, w: -.0242710635}
-        postQ: {x: -.178360581, y: -.00399947818, z: .98359853, w: -.0265615191}
-        length: .172551841
+        preQ: {x: -.162980169, y: -.00401055627, z: .986322463, w: -.0242710635}
+        postQ: {x: -.178360611, y: -.00399947912, z: .983598471, w: -.0265615173}
+        length: .172551855
         modified: 1
     - boneName: Clavicle_R
       humanName: RightShoulder
@@ -778,8 +966,8 @@ ModelImporter:
         min: {x: 0, y: -15.000001, z: -15.000001}
         max: {x: 0, y: 15.000001, z: 30.0000019}
         value: {x: .138041779, y: 0, z: .0690208897}
-        preQ: {x: .00401054416, y: .162980095, z: -.024271002, w: .986322582}
-        postQ: {x: .00399946794, y: .178360105, z: -.0265613887, w: .98359853}
+        preQ: {x: .00401054462, y: .162980124, z: -.0242710002, w: .986322463}
+        postQ: {x: .0039994684, y: .178360134, z: -.0265613887, w: .98359853}
         length: .172552288
         modified: 1
     - boneName: UpArm_L
@@ -788,7 +976,7 @@ ModelImporter:
         min: {x: -90, y: -100, z: -60.0000038}
         max: {x: 90, y: 100, z: 100}
         value: {x: .194862589, y: 0, z: .0974312946}
-        preQ: {x: .196729183, y: -.0114922179, z: .915410757, w: -.350982279}
+        preQ: {x: .196729183, y: -.0114922188, z: .915410757, w: -.350982249}
         postQ: {x: -.0582388304, y: -.000446055143, z: .997998238, w: -.0246462971}
         length: .243578315
         modified: 1
@@ -798,7 +986,7 @@ ModelImporter:
         min: {x: -90, y: -100, z: -60.0000038}
         max: {x: 90, y: 100, z: 100}
         value: {x: .194862202, y: 0, z: .0974311009}
-        preQ: {x: .0114924749, y: -.196729377, z: -.350982279, w: .915410757}
+        preQ: {x: .011492474, y: -.196729362, z: -.350982249, w: .915410757}
         postQ: {x: .00044606498, y: .0582389571, z: -.0246463772, w: .997998238}
         length: .243577823
         modified: 1
@@ -809,7 +997,7 @@ ModelImporter:
         max: {x: 90, y: 0, z: 80}
         value: {x: .225973189, y: 0, z: .112986594}
         preQ: {x: .461950302, y: .53766191, z: .530235887, w: -.4651573}
-        postQ: {x: .0539235286, y: .705448866, z: .704695404, w: -.0532774292}
+        postQ: {x: .0539235286, y: .705448806, z: .704695404, w: -.0532774329}
         length: .282466561
         modified: 1
     - boneName: LoArm_R
@@ -828,8 +1016,8 @@ ModelImporter:
         min: {x: 0, y: -40, z: -80}
         max: {x: 0, y: 40, z: 80}
         value: {x: .112986594, y: 0, z: .0564932972}
-        preQ: {x: .0758024156, y: .000351495313, z: .997122526, w: .000470637227}
-        postQ: {x: .0758024156, y: .000351495313, z: .997122526, w: .000470637227}
+        preQ: {x: .075802438, y: .000351495284, z: .997122645, w: .000470637257}
+        postQ: {x: .0758024156, y: .000351495226, z: .997122526, w: .000470637344}
         length: .14123328
         modified: 1
     - boneName: Hand_R
@@ -838,8 +1026,8 @@ ModelImporter:
         min: {x: 0, y: -40, z: -80}
         max: {x: 0, y: 40, z: 80}
         value: {x: .112986647, y: 0, z: .0564933233}
-        preQ: {x: -.000351498689, y: -.0758024007, z: .00047059459, w: .997122526}
-        postQ: {x: -.000351498689, y: -.0758024007, z: .00047059459, w: .997122526}
+        preQ: {x: -.000351498631, y: -.0758024007, z: .000470594474, w: .997122526}
+        postQ: {x: -.00035149866, y: -.0758024082, z: .000470594387, w: .997122645}
         length: .14123334
         modified: 1
     - boneName: Toe_L
@@ -877,20 +1065,20 @@ ModelImporter:
       limit:
         min: {x: 0, y: -25, z: -20}
         max: {x: 0, y: 25, z: 20}
-        value: {x: .035305962, y: 0, z: .017652981}
-        preQ: {x: .229118004, y: .607489705, z: .595251441, w: -.473430932}
-        postQ: {x: .00540748239, y: .569227576, z: .732684255, w: -.372993827}
-        length: .0441324711
+        value: {x: .0353060029, y: 0, z: .0176530015}
+        preQ: {x: .229117811, y: .607489944, z: .59525156, w: -.473430753}
+        postQ: {x: .00540728122, y: .569227755, z: .732684374, w: -.372993439}
+        length: .0441325195
         modified: 1
     - boneName: Thumb-2_L
       humanName: Left Thumb Intermediate
       limit:
         min: {x: 0, y: 0, z: -40}
         max: {x: 0, y: 0, z: 35}
-        value: {x: .0264794752, y: 0, z: .0132397376}
-        preQ: {x: -.11472667, y: .577494562, z: .77681911, w: -.223360196}
-        postQ: {x: .00540750846, y: .569227695, z: .732684195, w: -.372993767}
-        length: .0330993533
+        value: {x: .026479505, y: 0, z: .0132397525}
+        preQ: {x: -.114726886, y: .577494621, z: .77681917, w: -.223359898}
+        postQ: {x: .00540730776, y: .569227755, z: .732684374, w: -.372993439}
+        length: .0330993906
         modified: 1
     - boneName: Index_L
       humanName: Left Index Proximal
@@ -898,8 +1086,8 @@ ModelImporter:
         min: {x: 0, y: -20, z: -50}
         max: {x: 0, y: 20, z: 50}
         value: {x: .799999774, y: 0, z: .399999887}
-        preQ: {x: .0102456007, y: .111961707, z: .288096905, w: .950978279}
-        postQ: {x: -.000281885354, y: .0372050926, z: .00189456157, w: .999305785}
+        preQ: {x: .0102455989, y: .111961707, z: .288096905, w: .950978279}
+        postQ: {x: -.000281885295, y: .0372050889, z: .00189456146, w: .999305785}
         length: 1
         modified: 1
     - boneName: Mit_L
@@ -908,8 +1096,8 @@ ModelImporter:
         min: {x: 0, y: -20, z: -50}
         max: {x: 0, y: 20, z: 50}
         value: {x: .799999774, y: 0, z: .399999887}
-        preQ: {x: .0105350977, y: -.0407364666, z: .288139969, w: .956663251}
-        postQ: {x: -.000281885354, y: .0372050926, z: .00189456157, w: .999305785}
+        preQ: {x: .0105350958, y: -.0407364666, z: .288139969, w: .956663251}
+        postQ: {x: -.000281885295, y: .0372050889, z: .00189456146, w: .999305785}
         length: 1
         modified: 1
     - boneName: Thumb-1_R
@@ -918,7 +1106,7 @@ ModelImporter:
         min: {x: 0, y: -25, z: -20}
         max: {x: 0, y: 25, z: 20}
         value: {x: .0353059582, y: 0, z: .0176529791}
-        preQ: {x: .607489824, y: .22911793, z: .473430932, w: -.595251441}
+        preQ: {x: .607489765, y: .229117915, z: .473430902, w: -.595251441}
         postQ: {x: -.569227934, y: -.00540786935, z: -.372993469, w: .732684135}
         length: .0441324674
         modified: 1
@@ -929,7 +1117,7 @@ ModelImporter:
         max: {x: 0, y: 0, z: 35}
         value: {x: .0264794733, y: 0, z: .0132397367}
         preQ: {x: .577495039, y: -.114726409, z: .223359957, w: -.776818931}
-        postQ: {x: -.569227934, y: -.00540784746, z: -.372993469, w: .732684135}
+        postQ: {x: -.569227993, y: -.005407847, z: -.372993469, w: .732684135}
         length: .0330993496
         modified: 1
     - boneName: Index_R
@@ -938,8 +1126,8 @@ ModelImporter:
         min: {x: 0, y: -20, z: -50}
         max: {x: 0, y: 20, z: 50}
         value: {x: .799999774, y: 0, z: .399999887}
-        preQ: {x: -.0102455867, y: .111961678, z: .288096964, w: -.95097822}
-        postQ: {x: -.000281887187, y: -.0372050628, z: -.0018946036, w: .999305785}
+        preQ: {x: -.0102455867, y: .111961678, z: .288096935, w: -.95097822}
+        postQ: {x: -.0002818871, y: -.0372050591, z: -.00189460372, w: .999305785}
         length: 1
         modified: 1
     - boneName: Mit_R
@@ -948,8 +1136,8 @@ ModelImporter:
         min: {x: 0, y: -20, z: -50}
         max: {x: 0, y: 20, z: 50}
         value: {x: .799999774, y: 0, z: .399999887}
-        preQ: {x: -.0105350893, y: -.0407364927, z: .288139999, w: -.956663251}
-        postQ: {x: -.000281887187, y: -.0372050628, z: -.0018946036, w: .999305785}
+        preQ: {x: -.0105350893, y: -.0407365002, z: .288139999, w: -.956663251}
+        postQ: {x: -.0002818871, y: -.0372050591, z: -.00189460372, w: .999305785}
         length: 1
         modified: 1
     skeleton:
@@ -1025,7 +1213,7 @@ ModelImporter:
       transformModified: 1
     - name: Clavicle_L
       position: {x: -.00238800049, y: .028533984, z: .00604899973}
-      rotation: {x: 0, y: .0156234894, z: -.00226175156, w: .999875247}
+      rotation: {x: 0, y: .0156234913, z: -.0022617518, w: .999875367}
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
     - name: UpArm_L
@@ -1075,7 +1263,7 @@ ModelImporter:
       transformModified: 1
     - name: LoArm_R
       position: {x: .0241629593, y: -.00119699538, z: -.00283200014}
-      rotation: {x: .000490755483, y: .0589564778, z: -.00359586254, w: .998253822}
+      rotation: {x: .000490755541, y: .0589564852, z: -.003595863, w: .998253942}
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
     - name: Hand_R
@@ -1095,7 +1283,7 @@ ModelImporter:
       transformModified: 1
     - name: Thumb-1_R
       position: {x: .00324299186, y: -.000582009554, z: .00272300001}
-      rotation: {x: -.168862239, y: -.109353527, z: .145113796, w: .968746126}
+      rotation: {x: -.168862253, y: -.109353542, z: .145113811, w: .968746245}
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
     - name: Thumb-2_R
